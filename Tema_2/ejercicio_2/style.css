@@ -1,3 +1,5 @@
+/* https://es.pattern.monster/ 
+para patrones */
 nav {
   background-color: #1c448e;
 }
@@ -16,6 +18,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-image: linear-gradient( white,#009ddc);
 }
 #logo {
   margin-left: 5%;
@@ -27,6 +30,14 @@ form {
 main {
   background-color: white;
   border-radius: 10px;
+  background-image: linear-gradient(#009ddc, white);
+  box-shadow: 2px 3px 5px #000060;
+}
+#perfil >p>button{
+  box-shadow: 2px 3px 5px #000060;
+}
+#botonRegistro{
+  box-shadow: 2px 3px 5px #000060;
 }
 /*un articulo*/
 article {
@@ -94,4 +105,25 @@ a {
 }
 .valoracion{
   text-align: left;
+}
+
+/*Registro*/
+#envia_form{
+  box-shadow: 2px 3px 5px #000060;
+}
+#envia_form:hover{
+  box-shadow: 2px 3px 5px #000060;
+  /* transform: rotate(90deg); */
+  position: relative;
+  animation-name: example;
+  animation-iteration-count: 10;
+  animation-duration: 0.1s;
+}
+/*intencion es que haga algo parecido a un salto cuando pasas por encima */
+@keyframes example {
+  0%   {left:0px; top:0px;}
+  25%  { left:200px; top:0px;}
+  50%  { left:200px; top:200px;}
+  75%  { left:0px; top:200px;}
+  100% { left:0px; top:0px;}
 }
