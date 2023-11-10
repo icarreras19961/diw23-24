@@ -7,6 +7,7 @@ $secondary: #009ddc;
 $white: #fff;
 $gradient: linear-gradient($secondary, $white);
 $border-radius:20px;
+$shadow-lg: 0 1rem 3rem #1c448e;
 
 @import "../node_modules/bootstrap/scss/bootstrap";
 
