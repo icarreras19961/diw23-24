@@ -35,45 +35,62 @@
     <div id="cuerpo_de_form" class="container text-center">
       <div class="row ">
         <form id="form" class="my-2" action="">
-          <label class="col-lg-12 my-3 w-70 d-block">
-            Nombre
+          <div>
+            <label class="col-lg-12 my-3 w-70 d-block">
+              Nombre
+            </label><input id="nombre" type="text">
+            <small>Error</small>
+          </div>
 
-          </label><input id="nombre" type="text">
-          <label class="col-lg-12 my-3 d-block">
-            Apellidos
+          <div>
+            <label class="col-lg-12 my-3 d-block">
+              Apellidos
+            </label><input id="apellido" type="text">
+            <small>Error</small>
+          </div>
 
-          </label><input id="apellido" type="text">
-          <label class="col-lg-12 my-3 d-block">
-            Email
+          <div>
+            <label class="col-lg-12 my-3 d-block">
+              Email
+            </label><input id="email" type="text">
+            <small>Error</small>
+          </div>
 
-          </label><input id="email" type="text">
-          <label class="col-lg-12 my-3 d-block">
-            Password
+          <div>
+            <label class="col-lg-12 my-3 d-block">
+              Password
+            </label><input id="password" type="password">
+            <small>Error</small>
+          </div>
 
-          </label><input id="password" type="password">
-
-          <label class="col-lg-12 my-3 d-block">
-            Avatar
-            <div class="container text-center">
-              <div class="row">
-                <label class="col-lg-4 col-md-4 col-4">
-                  <input name="imagen" id="imagen 1" type="radio">
-                  <img src="imagenes de registro/xico.png" alt="option 1" width="150px" height="150px"
-                    class="img-fluid">
-                </label>
-                <label class="col-lg-4 col-md-4 col-4">
-                  <input id="imagen 2" name="imagen" type="radio">
-                  <img src="imagenes de registro/xica.png" alt="option 2" width="150px" height="150px"
-                    class="img-fluid">
-                </label>
-                <label class="col-lg-4 col-md-4 col-4">
-                  <input id="imagen 3" name="imagen" type="radio">
-                  <img src="imagenes de registro/morenito.bmp.png" alt="option 3" width="150px" height="150px"
-                    class="img-fluid">
-                </label>
+          <div id="imagen">
+            <label class="col-lg-12 my-3 d-block">
+              Avatar
+              <div class="container text-center">
+                <div class="row">
+                  <label class="col-lg-4 col-md-4 col-4">
+                    <input name="imagen" id="imagen 1" type="radio">
+                    <img class="avatar" src="imagenes de registro/xico.png" alt="option 1" width="150px" height="150px"
+                      class="img-fluid">
+                  </label>
+                  <label class="col-lg-4 col-md-4 col-4">
+                    <input id="imagen 2" name="imagen" type="radio">
+                    <img class="avatar" src="imagenes de registro/xica.png" alt="option 2" width="150px" height="150px"
+                      class="img-fluid">
+                  </label>
+                  <label class="col-lg-4 col-md-4 col-4">
+                    <input id="imagen 3" name="imagen" value="3 " type="radio">
+                    <img class="avatar" src="imagenes de registro/morenito.bmp.png" alt="option 3" width="150px"
+                      height="150px" class="img-fluid">
+                  </label>
+                </div>
               </div>
-            </div>
-          </label>
+            </label>
+          </div>
+          <div class="admin">
+            Admin?
+            <input type="checkbox">
+          </div>
           <input type="submit" name="submit" id="envia_form" class="col-lg-12 col-md-12 col-12 my-3 ">
         </form>
       </div>

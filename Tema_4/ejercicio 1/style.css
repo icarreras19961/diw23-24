@@ -115,7 +115,16 @@ a {
   box-shadow: 2px 3px 5px #000060;
   border-radius: 20px;
 }
-
+small {
+  color:#e74c3c;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  visibility: hidden;
+}
+.error small{
+  visibility: visible;
+}
 #enviar_form:hover {
   position: relative;
   transform: translateY(-3px);

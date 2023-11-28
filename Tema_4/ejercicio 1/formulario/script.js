@@ -6,7 +6,10 @@ var indexedDB =
   window.shimIndexedDB;
 let db;
 let cajaUser;
-
+const form = document.getElementById("form");
+const email = document.getElementById("email");
+let imagen = document.getElementById("imagen");
+console.log(imagen);
 //crea la base de datos o la abre si esta creada.
 function iniciarDB() {
   cajaUser = document.querySelector(".caja_users");
@@ -41,7 +44,9 @@ function crearAlmacen(evento) {
   // almacen.createIndex("Nombre", "Nombre", { unique: false });
   almacen.createIndex("Buscar_Nombre", "nombre", { unique: false });
 }
-
+imagen.addEventListener((e) => {
+  console.log(e.target);
+});
 function almacenarUser(e) {
   e.preventDefault();
   let nombre = document.querySelector("#nombre").value;
@@ -65,6 +70,7 @@ function almacenarUser(e) {
     Apellido: apellido,
     Email: email,
     Contrasena: password,
+    Avatar: avatar,
   });
 
   document.querySelector("#nombre").value = "";
@@ -95,23 +101,33 @@ function mostrarUser(evento) {
       puntero.value.Apellido +
       " / Email: " +
       puntero.value.Email +
-      " / Telefono: " +
-      puntero.value.Telefono +
+      " / Contraseña: " +
+      puntero.value.password +
       "</div>";
     puntero.continue();
   }
 }
 
-function esEmailValid(input) {
-  const re =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+/*Lo de validar el mail no va*/
+// form.addEventListener("submit", (e) => {
+//   esEmailValid(email);
+// });
+// function esEmailValid(input) {
+//   const re =
+//     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-  if (re.test(input.value.trim())) {
-    mostraCorrecte(input);
-  } else {
-    let mensaje = prenNomInput(input) + " no tiene el formato correcto";
-    mostraError(input, mensaje);
-  }
-}
-
+//   if (re.test(input.value.trim())) {
+//     mostraCorrecte(input);
+//   } else {
+//     let mensaje = prenNomInput(input) + " no tiene el formato correcto";
+//     mostraError(input, mensaje);
+//   }
+// }
+// function mostraError(input, mensaje) {
+//   const formControl = input.parentElement;
+//   formControl.className = "form-control error";
+//   const label = formControl.querySelector("label");
+//   const small = formControl.querySelector("small");
+//   small.innerText = mensaje;
+// }
 window.addEventListener("load", iniciarDB());
