@@ -1,24 +1,25 @@
 var indexedDB =
-  window.indexedDB ||
-  window.mozIndexedDB ||
-  window.webkitIndexedDB ||
-  window.msIndexedDB ||
-  window.shimIndexedDB;
+window.indexedDB ||
+window.mozIndexedDB ||
+window.webkitIndexedDB ||
+window.msIndexedDB ||
+window.shimIndexedDB;
 let db;
 let cajaUser;
 const form = document.getElementById("form");
 const email = document.getElementById("email");
 let imagen = document.getElementById("imagen");
-console.log(imagen);
+
+
 //crea la base de datos o la abre si esta creada.
 function iniciarDB() {
   cajaUser = document.querySelector(".caja_users");
   let btnGuardar = document.querySelector("#envia_form");
-  console.log(btnGuardar);
+  // console.log(btnGuardar);
   btnGuardar.addEventListener("click", almacenarUser);
-
+  
   let solicitud = indexedDB.open("Datos-de-formulario");
-
+  
   solicitud.addEventListener("error", mostrarError);
   solicitud.addEventListener("success", comenzar);
   solicitud.addEventListener("upgradeneeded", crearAlmacen);
@@ -34,6 +35,13 @@ function comenzar(acceso) {
   muestra();
 }
 
+let img;
+imagen.addEventListener("click", (e) => {
+  if (e.target.classList.contains("avatar")) {
+    img = e.target.getAttribute('ruta');
+    console.log(e.target.getAttribute('ruta'));
+  }
+});
 //Esto crea la estructura de la base de datos
 function crearAlmacen(evento) {
   console.log(evento.target.result);
@@ -44,9 +52,7 @@ function crearAlmacen(evento) {
   // almacen.createIndex("Nombre", "Nombre", { unique: false });
   almacen.createIndex("Buscar_Nombre", "nombre", { unique: false });
 }
-imagen.addEventListener((e) => {
-  console.log(e.target);
-});
+
 function almacenarUser(e) {
   e.preventDefault();
   let nombre = document.querySelector("#nombre").value;
@@ -61,6 +67,9 @@ function almacenarUser(e) {
   let password = document.querySelector("#password").value;
   console.log(document.querySelector("#password").value);
 
+  let admin = document.querySelector("#admin").checked;
+  console.log(document.querySelector("#admin").checked);
+
   let transaccion = db.transaction(["User"], "readwrite");
   let almacen = transaccion.objectStore("User");
   transaccion.addEventListener("complete", mostrarUser);
@@ -70,13 +79,17 @@ function almacenarUser(e) {
     Apellido: apellido,
     Email: email,
     Contrasena: password,
-    Avatar: avatar,
+    Avatar: img,
+    Admin: admin,
   });
 
   document.querySelector("#nombre").value = "";
   document.querySelector("#apellido").value = "";
   document.querySelector("#email").value = "";
-  document.querySelector("#telefono").value = "";
+  document.querySelector("#password").value = "";
+  // document.querySelector("#password").value = "";
+  document.querySelector("#admin").value = "";
+  window.location.href = "./../index.html";
 }
 
 function muestra() {
