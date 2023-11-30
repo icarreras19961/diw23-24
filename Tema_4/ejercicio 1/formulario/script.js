@@ -1,15 +1,14 @@
 var indexedDB =
-window.indexedDB ||
-window.mozIndexedDB ||
-window.webkitIndexedDB ||
-window.msIndexedDB ||
-window.shimIndexedDB;
+  window.indexedDB ||
+  window.mozIndexedDB ||
+  window.webkitIndexedDB ||
+  window.msIndexedDB ||
+  window.shimIndexedDB;
 let db;
 let cajaUser;
 const form = document.getElementById("form");
 const email = document.getElementById("email");
 let imagen = document.getElementById("imagen");
-
 
 //crea la base de datos o la abre si esta creada.
 function iniciarDB() {
@@ -17,9 +16,9 @@ function iniciarDB() {
   let btnGuardar = document.querySelector("#envia_form");
   // console.log(btnGuardar);
   btnGuardar.addEventListener("click", almacenarUser);
-  
-  let solicitud = indexedDB.open("Datos-de-formulario");
-  
+
+  let solicitud = indexedDB.open("IvanDB");
+
   solicitud.addEventListener("error", mostrarError);
   solicitud.addEventListener("success", comenzar);
   solicitud.addEventListener("upgradeneeded", crearAlmacen);
@@ -38,8 +37,8 @@ function comenzar(acceso) {
 let img;
 imagen.addEventListener("click", (e) => {
   if (e.target.classList.contains("avatar")) {
-    img = e.target.getAttribute('ruta');
-    console.log(e.target.getAttribute('ruta'));
+    img = e.target.getAttribute("ruta");
+    console.log(e.target.getAttribute("ruta"));
   }
 });
 //Esto crea la estructura de la base de datos
@@ -94,7 +93,7 @@ function almacenarUser(e) {
 
 function muestra() {
   cajaUser.innerHTML = "";
-
+  console.log("la variable db: " + db);
   let transaccion = db.transaction(["User"]);
   let almacen = transaccion.objectStore("User");
   let puntero = almacen.openCursor();

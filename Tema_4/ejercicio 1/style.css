@@ -36,6 +36,12 @@ main {
 #perfil > p > button {
   box-shadow: 2px 3px 5px #000060;
 }
+#btn_perfil {
+  display: none;
+}
+#btn_s_out {
+  display: none;
+}
 #botonRegistro {
   box-shadow: 2px 3px 5px #000060;
 }
@@ -45,7 +51,6 @@ article {
   border-radius: 10px;
   color: #000060;
   margin-top: 20px;
-  
 }
 .article-imagen {
   margin: 9%;
@@ -116,13 +121,13 @@ a {
   border-radius: 20px;
 }
 small {
-  color:#e74c3c;
+  color: #e74c3c;
   position: absolute;
   bottom: 0;
   left: 0;
   visibility: hidden;
 }
-.error small{
+.error small {
   visibility: visible;
 }
 #enviar_form:hover {
