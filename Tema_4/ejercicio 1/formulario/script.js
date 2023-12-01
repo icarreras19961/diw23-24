@@ -6,6 +6,7 @@ var indexedDB =
   window.shimIndexedDB;
 let db;
 let cajaUser;
+let validadoOK;
 const form = document.getElementById("form");
 const email = document.getElementById("email");
 let imagen = document.getElementById("imagen");
@@ -15,7 +16,14 @@ function iniciarDB() {
   cajaUser = document.querySelector(".caja_users");
   let btnGuardar = document.querySelector("#envia_form");
   // console.log(btnGuardar);
-  btnGuardar.addEventListener("click", almacenarUser);
+  btnGuardar.addEventListener("click", (e) => {
+    validador();
+    if (validadoOK) {
+      almacenarUser();
+    }else{
+      console.log("algo esta mal escrito");
+    }
+  });
 
   let solicitud = indexedDB.open("IvanDB");
 
@@ -88,6 +96,7 @@ function almacenarUser(e) {
   document.querySelector("#password").value = "";
   // document.querySelector("#password").value = "";
   document.querySelector("#admin").value = "";
+
   window.location.href = "./../index.html";
 }
 
@@ -119,27 +128,81 @@ function mostrarUser(evento) {
     puntero.continue();
   }
 }
+//Los validadores 100% originales que para nada estan copiados de un ejercicio de Joan
+function validador() {
+  let obligatorio = [
+    document.querySelector("#nombre"),
+    document.querySelector("#apellido"),
+    email,
+    document.querySelector("#password"),
+  ];
+  console.log(obligatorio);
+  comprobaLognitud(document.querySelector("#nombre"), 3, 15);
+  comprobaLognitud(document.querySelector("#password"), 6, 25);
+  comprobaLognitud(document.querySelector("#password2"), 6, 25);
+  esObligatorio(obligatorio);
 
-/*Lo de validar el mail no va*/
-// form.addEventListener("submit", (e) => {
-//   esEmailValid(email);
-// });
-// function esEmailValid(input) {
-//   const re =
-//     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  esEmailValid(email);
+  comprovaContrasenasSonIguales(
+    document.querySelector("#password"),
+    document.querySelector("#password2")
+  );
+  validadoOK = true;
+}
 
-//   if (re.test(input.value.trim())) {
-//     mostraCorrecte(input);
-//   } else {
-//     let mensaje = prenNomInput(input) + " no tiene el formato correcto";
-//     mostraError(input, mensaje);
-//   }
-// }
-// function mostraError(input, mensaje) {
-//   const formControl = input.parentElement;
-//   formControl.className = "form-control error";
-//   const label = formControl.querySelector("label");
-//   const small = formControl.querySelector("small");
-//   small.innerText = mensaje;
-// }
+//Validador de que sea obligatorio llenar el campo
+function esObligatorio(inputArray) {
+  inputArray.forEach((input) => {
+    if (input.value === "") {
+      mostraError(input, `${prenNomInput(input)} es obligatorio`);
+    } else {
+      mostraCorrecte(input);
+    }
+  });
+}
+function prenNomInput(input) {
+  return input.id.charAt(0).toUpperCase() + input.id.slice(1);
+}
+function mostraCorrecte(input) {
+  const formControl = input.parentElement;
+  formControl.className = "form-control correcte";
+}
+//Ver si el email esta bien escrito
+function esEmailValid(input) {
+  const re =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+  if (re.test(input.value.trim())) {
+    mostraCorrecte(input);
+  } else {
+    let mensaje = prenNomInput(input) + " no tiene el formato correcto";
+    mostraError(input, mensaje);
+  }
+}
+//Muestra el error por el formulario
+function mostraError(input, mensaje) {
+  const formControl = input.parentElement;
+  formControl.className = "form-control error";
+  const label = formControl.querySelector("label");
+  const small = formControl.querySelector("small");
+  small.innerText = mensaje;
+}
+//Comprueba la longitud de las palabras
+function comprobaLognitud(input, min, max) {
+  if (input.value.length < min) {
+    mostraError(input, "Ha de tener un minimo de: " + min + " caracteres");
+  } else if (input.value.length > max) {
+    mostraError(input, "Ha de tener un maximo de: " + max + " caracteres");
+  } else {
+    mostraCorrecte(input);
+  }
+}
+//Comprueva que las contraseñas sean iguales
+function comprovaContrasenasSonIguales(input1, input2) {
+  if (input1.value != input2.value) {
+    let mensaje =
+      prenNomInput(input2) + " ha de ser igual a " + prenNomInput(input1);
+    mostraError(input2, mensaje);
+  }
+}
 window.addEventListener("load", iniciarDB());
