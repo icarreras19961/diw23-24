@@ -61,7 +61,7 @@ function crearAlmacen(evento) {
 }
 
 function almacenarUser(e) {
-  e.preventDefault();
+  
   let nombre = document.querySelector("#nombre").value;
   console.log(nombre);
 
