@@ -41,19 +41,78 @@
     </nav>
   </header>
 
-
   <!-- Contenido de la pagina -->
   <main class="container m-2 mx-auto p-3 border-1" id="cuerpo">
     <h2>Usuarios</h2>
     <div class="row bg-light rounded" id="cajaUser">
 
     </div>
+
+    <div class="envoltorio-popup-pwd">
+      <div class="popup">
+        <div class="cerrar-popup-pwd">x</div>
+        <div class="contenido-popup">
+          <h2>Cambia tu contraseña</h2>
+
+          
+        </div>
+      </div>
+    </div>
     <div class="envoltorio-popup">
       <div class="popup">
         <div class="cerrar-popup">x</div>
         <div class="contenido-popup">
-          <h2>Has Perdido :C</h2>
+          <h2>Ajustes</h2>
+          <hr>
+          <div id="form" class="my-2" action="">
+            <div class="form-control">
+              <label class="col-lg-12 my-3 w-70 d-block">
+                Nombre
+              </label><input id="nombre" type="text">
+              <small>Error</small>
+            </div>
+            <div class="form-control">
+              <label class="col-lg-12 my-3 d-block">
+                Apellidos
+              </label><input id="apellido" type="text">
+              <small>Error</small>
+            </div>
+            <div class="form-control">
+              <label class="col-lg-12 my-3 d-block">
+                Email
+              </label><input id="email" type="text">
+              <small>Error</small>
+            </div>
+            <label class="col-lg-12 my-3 d-block">
+              Avatar
+              <div class="container text-center">
+                <div class="row">
+                  <div id="imagen">
+                    <label class="col-lg-4 col-md-4 col-4">
+                      <input name="imagen" id="imagen 1" type="radio">
+                      <img class="avatar" src="../formulario/imagenes de registro/xico.png"
+                        ruta="imagenes de registro/xico.png" alt="option 1" width="100px" height="100px"
+                        class="img-fluid">
+                    </label>
+                    <label class="col-lg-4 col-md-4 col-4">
+                      <input id="imagen 2" name="imagen" type="radio">
+                      <img class="avatar" src="../formulario/imagenes de registro/xica.png"
+                        ruta="imagenes de registro/xica.png" alt="option 2" width="100px" height="100px"
+                        class="img-fluid">
+                    </label>
+                    <label class="col-lg-4 col-md-4 col-4">
+                      <input id="imagen 3" name="imagen" value="3 " type="radio">
+                      <img class="avatar" src="../formulario/imagenes de registro/morenito.bmp.png"
+                        ruta="imagenes de registro/morenito.bmp.png" alt="option 3" width="100px" height="100px"
+                        class="img-fluid">
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </label>
 
+            <input type="submit" name="submit" id="envia_form" class="col-lg-12 col-md-12 col-12 my-3 ">
+          </div>
         </div>
       </div>
     </div>
