@@ -19,11 +19,13 @@
   <header>
     <nav class="navbar">
       <div id="logo">
-        <picture>
-          <source media="(min-width:650px)" srcset="../logo_letras_claras\logohorizontal.png" />
-          <source media="(min-width:300px)" srcset="../logo_letras_claras\minilogohorizontal.png" />
-          <img src="../logo_letras_claras/logohorizontal.png" alt="" width="200px" />
-        </picture>
+        <a href="./../index.html">
+          <picture>
+            <source media="(min-width:650px)" srcset="../logo_letras_claras\logohorizontal.png" />
+            <source media="(min-width:300px)" srcset="../logo_letras_claras\minilogohorizontal.png" />
+            <img src="../logo_letras_claras/logohorizontal.png" alt="" width="200px" />
+          </picture>
+        </a>
       </div>
       <div id="perfil">
         <img id="imagen_perfil" class="login_imagen" src="../iconos/perfilclaro.png" alt="" width="30" />
@@ -53,7 +55,20 @@
         <div class="cerrar-popup-pwd">x</div>
         <div class="contenido-popup">
           <h2>Cambia tu contraseña</h2>
-
+          <hr>
+          <div class="form-control">
+            <label class="col-lg-12 my-3 d-block">
+              Password
+            </label><input id="password" type="password">
+            <small>Error</small>
+          </div>
+          <div class="form-control">
+            <label class="col-lg-12 my-3 d-block">
+              Confirm Password
+            </label><input id="password2" type="password">
+            <small>Error</small>
+          </div>
+          <input type="submit" name="submit" id="envia-form-pwd" class="col-lg-12 col-md-12 col-12 my-3 ">
           
         </div>
       </div>

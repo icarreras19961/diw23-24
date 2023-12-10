@@ -181,3 +181,7 @@ small {
 .form-control.error input {
   border-color: #e74c3c;
 }
+/*Sign in*/
+#formulario-sign-in{
+  width: 40%;
+}

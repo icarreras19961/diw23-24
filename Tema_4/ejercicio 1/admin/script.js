@@ -18,14 +18,14 @@ let Apellidos = document.getElementById("apellido");
 let Email = document.getElementById("email");
 let imagen = document.getElementById("imagen");
 let enviaForm = document.getElementById("envia_form");
+let pwd = document.getElementById("password");
 //POP UP PWD
 let envoltoriPopupPwd = document.getElementsByClassName("envoltorio-popup-pwd");
+let cerrarPopupPwd = document.getElementsByClassName("cerrar-popup-pwd");
 
 function iniciarDB() {
   cajaUser = document.querySelector("#cajaUser");
   console.log(cajaUser);
-  let btnGuardar = document.querySelector("#envia_form");
-
   let solicitud = indexedDB.open("IvanDB");
   console.log(solicitud);
   solicitud.addEventListener("error", mostrarError);
@@ -40,11 +40,11 @@ function comenzar(acceso) {
 }
 function muestra() {
   console.log("la variable db: " + db);
-
+  
   let transaccion = db.transaction(["User"]);
   let almacen = transaccion.objectStore("User");
   let puntero = almacen.openCursor();
-  console.log(puntero);
+  console.log("puntero " + puntero);
   puntero.addEventListener("success", mostrarUser);
 }
 function mostrarUser(evento) {
@@ -76,19 +76,23 @@ function mostrarUser(evento) {
 
     password = document.getElementById("chgPwd");
     password.addEventListener("click", (e) => {
-      console.log("hola");
       e.preventDefault();
+      console.log(puntero.value.Nombre )
+      pwd.value = puntero.value.contrasena
       envoltoriPopupPwd[0].style.display = "block";
+    });
+    cerrarPopupPwd[0].addEventListener("click", (e) => {
+      envoltoriPopupPwd[0].style.display = "none";
     });
 
     ajustes = document.getElementById("ajustes");
     ajustes.addEventListener("click", (e) => {
       e.preventDefault(); //para que no recargue la pagina
       // Lo que muestra los resultados de la base de datos en los inputs del popup
+      envoltoriPopup[0].style.display = "block";
       nombre.value = puntero.value.Nombre;
       Apellidos.value = puntero.value.Apellido;
       Email.value = puntero.value.Email;
-      envoltoriPopup[0].style.display = "block";
       let img;
       imagen.addEventListener("click", (e) => {
         if (e.target.classList.contains("avatar")) {
@@ -97,6 +101,7 @@ function mostrarUser(evento) {
         }
       });
       enviaForm.addEventListener("click", (e) => {
+        console.log("hola");
         puntero.value.nombre = nombre.value;
         puntero.value.Apellido = Apellidos.value;
         puntero.value.Email = Email.value;
