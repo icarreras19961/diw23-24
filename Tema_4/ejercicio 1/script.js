@@ -11,8 +11,6 @@ let btn_s_in = document.getElementById("btn_s_in");
 let botonRegistro = document.getElementById("botonRegistro");
 
 let db;
-let db2;
-let offSesion = indexedDB.open("LogOut");
 let solicitud = indexedDB.open("IvanDB");
 
 function iniciarDB() {
@@ -20,16 +18,11 @@ function iniciarDB() {
   console.log(solicitud);
   solicitud.addEventListener("error", mostrarError);
   solicitud.addEventListener("success", comenzar);
-  // solicitud.addEventListener("upgradeneeded", crearAlmacen);
-
-  offSesion.addEventListener("error", mostrarError);
-  offSesion.addEventListener("success", comenzar);
-  offSesion.addEventListener("upgradeneeded", crearAlmacen2);
+  solicitud.addEventListener("upgradeneeded", crearAlmacen);
 }
 function mostrarError(error) {
   console.log("Hay un error en: " + error.code + " / " + error.message);
 }
-
 function comenzar(acceso) {
   db = acceso.target.result;
   muestra();
@@ -42,9 +35,42 @@ function muestra() {
   let almacen = transaccion.objectStore("User");
   let puntero = almacen.openCursor();
   // console.log(puntero);
-  puntero.addEventListener("success", mostrarUser);
+  puntero.addEventListener("success", mostrarUser2);
 }
-function mostrarUser(evento) {
+function crearAlmacen(evento) {
+  console.log("hpña" + evento.target.result);
+  let database = evento.target.result;
+  //La tabla
+  let almacen = database.createObjectStore("User", { keyPath: "Email" });
+  //las fields
+  // almacen.createIndex("Nombre", "Nombre", { unique: false });
+  almacen.createIndex("Buscar_Nombre", "nombre", { unique: false });
+}
+
+//Base de datos 2
+let db2;
+let offSesion = indexedDB.open("LogOut");
+
+function iniciarDB2() {
+  offSesion.addEventListener("error", mostrarError);
+  offSesion.addEventListener("success", comenzar2);
+  offSesion.addEventListener("upgradeneeded", crearAlmacen2);
+}
+
+function comenzar2(acceso) {
+  db2 = acceso.target.result;
+  muestra2();
+}
+
+function muestra2() {
+  console.log("la variable db: " + db2);
+
+  let transaccion = db2.transaction(["User2"]);
+  let almacen = transaccion.objectStore("User2");
+  let puntero = almacen.openCursor();
+  // console.log(puntero);
+}
+function mostrarUser2(evento) {
   console.log(evento);
   let puntero = evento.target.result;
   if (puntero != null) {
@@ -58,28 +84,19 @@ function mostrarUser(evento) {
 
   btn_s_out.addEventListener("click", (e) => {
     almacenarUser(puntero);
+    vaciarIvanDB();
   });
 }
-function crearAlmacen(evento) {
-  console.log("hpña" + evento.target.result);
-  let database = evento.target.result;
-  //La tabla
-  let almacen = database.createObjectStore("User", { keyPath: "Email" });
-  //las fields
-  // almacen.createIndex("Nombre", "Nombre", { unique: false });
-  almacen.createIndex("Buscar_Nombre", "nombre", { unique: false });
-}
 function crearAlmacen2(evento) {
-  console.log("hpña" + evento.target.result);
   let database = evento.target.result;
   //La tabla
   let almacen = database.createObjectStore("User2", { keyPath: "Email" });
   //las fields
-  // almacen.createIndex("Nombre", "Nombre", { unique: false });
   almacen.createIndex("Buscar_Nombre", "nombre", { unique: false });
 }
 function almacenarUser(puntero) {
-  let transaccion = db.transaction(["User2"], "readwrite");
+  // console.log("patata" + puntero);
+  let transaccion = db2.transaction(["User2"], "readwrite");
   let almacen = transaccion.objectStore("User2");
 
   let nombre = puntero.value.Nombre;
@@ -88,17 +105,26 @@ function almacenarUser(puntero) {
   let password = puntero.value.Contrasena;
   let img = puntero.value.Avatar;
   let admin = puntero.value.Admin;
-  if (
-    almacen.add({
-      Nombre: nombre,
-      Apellido: apellido,
-      Email: email,
-      Contrasena: password,
-      Avatar: img,
-      Admin: admin,
-    })
-  ) {
-    console.log("patata");
-  }
+  almacen.add({
+    Nombre: nombre,
+    Apellido: apellido,
+    Email: email,
+    Contrasena: password,
+    Avatar: img,
+    Admin: admin,
+  });
+}
+
+function vaciarIvanDB() {
+  console.log(db);
+  let transaccion = db.transaction(["User"], "readwrite");
+  let almacen = transaccion.objectStore("User");
+  almacen.clear();
+  btn_perfil.style.display = "none";
+  btn_s_out.style.display = "none";
+  btn_s_in.style.display = "inline-block";
+  botonRegistro.style.display = "inline-block";
+  imagen_perfil.src = "iconos/perfilclaro.png";
 }
 window.addEventListener("load", iniciarDB());
+window.addEventListener("load", iniciarDB2());

@@ -40,7 +40,7 @@ function comenzar(acceso) {
 }
 function muestra() {
   console.log("la variable db: " + db);
-  
+
   let transaccion = db.transaction(["User"]);
   let almacen = transaccion.objectStore("User");
   let puntero = almacen.openCursor();
@@ -50,6 +50,7 @@ function muestra() {
 function mostrarUser(evento) {
   console.log(evento);
   let puntero = evento.target.result;
+  let emailFijo;
   if (puntero != null) {
     btn_perfil.style.display = "inline-block";
     btn_s_out.style.display = "inline-block";
@@ -57,6 +58,7 @@ function mostrarUser(evento) {
     botonRegistro.style.display = "none";
     imagen_perfil.src = "../formulario/" + puntero.value.Avatar;
     imagen_perfil.style.borderRadius = "25px";
+    emailFijo = puntero.value.Email;
     cajaUser.innerHTML +=
       "<div class='col-lg-9 mx-auto p-3'>" +
       "<img class='avatar' src=" +
@@ -77,8 +79,8 @@ function mostrarUser(evento) {
     password = document.getElementById("chgPwd");
     password.addEventListener("click", (e) => {
       e.preventDefault();
-      console.log(puntero.value.Nombre )
-      pwd.value = puntero.value.contrasena
+      console.log(puntero.value.Nombre);
+      pwd.value = puntero.value.contrasena;
       envoltoriPopupPwd[0].style.display = "block";
     });
     cerrarPopupPwd[0].addEventListener("click", (e) => {
@@ -90,9 +92,10 @@ function mostrarUser(evento) {
       e.preventDefault(); //para que no recargue la pagina
       // Lo que muestra los resultados de la base de datos en los inputs del popup
       envoltoriPopup[0].style.display = "block";
-      nombre.value = puntero.value.Nombre;
-      Apellidos.value = puntero.value.Apellido;
-      Email.value = puntero.value.Email;
+      //no llego a entender porque esto me sale como null si esta bien declarado hace literalmente 3 lineas arriba
+      // nombre.value = puntero.value.Nombre;
+      // Apellidos.value = puntero.value.Apellido;
+      Email.value = emailFijo;
       let img;
       imagen.addEventListener("click", (e) => {
         if (e.target.classList.contains("avatar")) {
@@ -101,22 +104,13 @@ function mostrarUser(evento) {
         }
       });
       enviaForm.addEventListener("click", (e) => {
-        console.log("hola");
-        puntero.value.nombre = nombre.value;
-        puntero.value.Apellido = Apellidos.value;
-        puntero.value.Email = Email.value;
-        puntero.value.Avatar = img;
-        actualizarUser(
-          puntero.value.nombre,
-          puntero.value.Apellido,
-          puntero.value.Email,
-          puntero.value.Avatar
-        );
+        actualizarUser(nombre.value, Apellidos.value, emailFijo, img);
       });
       cerrarPopup[0].addEventListener("click", (e) => {
         envoltoriPopup[0].style.display = "none";
       });
       function actualizarUser(nombre, apellido, email, img) {
+        //se crea uno nuevo cada vez que pones un key distinto pero al punter.value.email ser undefined nose que hacer
         let transaccion = db.transaction(["User"], "readwrite");
         let almacen = transaccion.objectStore("User");
 
