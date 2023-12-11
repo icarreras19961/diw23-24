@@ -20,7 +20,7 @@ function iniciarDB() {
     validador();
     if (validadoOK) {
       almacenarUser();
-    } else {
+    }else{
       console.log("algo esta mal escrito");
     }
   });
@@ -61,6 +61,7 @@ function crearAlmacen(evento) {
 }
 
 function almacenarUser(e) {
+  e.preventDefault();
   let nombre = document.querySelector("#nombre").value;
   console.log(nombre);
 
@@ -96,11 +97,7 @@ function almacenarUser(e) {
   // document.querySelector("#password").value = "";
   document.querySelector("#admin").value = "";
 
-  if (admin) {
-    window.location.href = "./../admin/admin.html";
-  } else {
-    window.location.href = "./../index.html";
-  }
+  window.location.href = "./../index.html";
 }
 
 function muestra() {
