@@ -19,9 +19,12 @@ let Email = document.getElementById("email");
 let imagen = document.getElementById("imagen");
 let enviaForm = document.getElementById("envia_form");
 let pwd = document.getElementById("password");
+let pwd2 = document.getElementById("password2");
+
 //POP UP PWD
 let envoltoriPopupPwd = document.getElementsByClassName("envoltorio-popup-pwd");
 let cerrarPopupPwd = document.getElementsByClassName("cerrar-popup-pwd");
+let enviaFormPwd = document.getElementById("envia-form-pwd");
 
 function iniciarDB() {
   cajaUser = document.querySelector("#cajaUser");
@@ -80,8 +83,37 @@ function mostrarUser(evento) {
     password.addEventListener("click", (e) => {
       e.preventDefault();
       console.log(puntero.value.Nombre);
-      pwd.value = puntero.value.contrasena;
+      // pwd.value = puntero.value.contrasena;
       envoltoriPopupPwd[0].style.display = "block";
+      enviaFormPwd.addEventListener("click", (e) => {
+        // console.log(pwd.value+" "+pwd2.value);
+        if (pwd.value == pwd2.value ) {
+          actualizarpwd(
+            pwd,
+            puntero.value.Nombre,
+            puntero.value.Apellido,
+            puntero.value.Email,
+            puntero.value.Avatar
+          );
+        } else {
+          console.log("hola");
+          let errorPWD = document.getElementById("errorPWD");
+          errorPWD.innerText = "Las contraseñas no coinciden";
+          errorPWD.style.color = "red";
+        }
+      });
+      function actualizarpwd(pwd, nombre, apellido, email, img) {
+        let transaccion = db.transaction(["User"], "readwrite");
+        let almacen = transaccion.objectStore("User");
+        almacen.put({
+          Nombre: nombre,
+          Apellido: apellido,
+          Email: email,
+          Avatar: img,
+          Contrasena: pwd,
+        });
+        window.location.reload();
+      }
     });
     cerrarPopupPwd[0].addEventListener("click", (e) => {
       envoltoriPopupPwd[0].style.display = "none";
@@ -109,7 +141,7 @@ function mostrarUser(evento) {
       cerrarPopup[0].addEventListener("click", (e) => {
         envoltoriPopup[0].style.display = "none";
       });
-      function actualizarUser(nombre, apellido, email, img) {
+      function actualizarUser(nombre, apellido, email, img,pwd) {
         //se crea uno nuevo cada vez que pones un key distinto pero al punter.value.email ser undefined nose que hacer
         let transaccion = db.transaction(["User"], "readwrite");
         let almacen = transaccion.objectStore("User");
@@ -119,6 +151,7 @@ function mostrarUser(evento) {
           Apellido: apellido,
           Email: email,
           Avatar: img,
+          Contrasena: puntero.value.Contrasena,
         });
         window.location.reload();
       }
