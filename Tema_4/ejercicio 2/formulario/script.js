@@ -95,7 +95,6 @@ function almacenarUser(e) {
   document.querySelector("#password").value = "";
   // document.querySelector("#password").value = "";
   document.querySelector("#admin").value = "";
-
   if (admin) {
     window.location.href = "./../admin/admin.html";
   } else {
@@ -150,7 +149,7 @@ function validador() {
     document.querySelector("#password"),
     document.querySelector("#password2")
   );
-  validadoOK = true;
+  return true;
 }
 
 //Validador de que sea obligatorio llenar el campo

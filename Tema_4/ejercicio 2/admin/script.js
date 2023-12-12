@@ -74,7 +74,7 @@ function mostrarUser(evento) {
       " / Email: " +
       puntero.value.Email +
       " / Contraseña: " +
-      puntero.value.password +
+      puntero.value.Contrasena   +
       " <button class='btn gris' id='chgPwd'>Cambiar Contraseña</button>" +
       "</div><button class='col-lg-2 h-50 mt-4 btn gris 'id='ajustes' class=''>Ajustes</button> <hr>";
     puntero.continue();
@@ -125,8 +125,8 @@ function mostrarUser(evento) {
       // Lo que muestra los resultados de la base de datos en los inputs del popup
       envoltoriPopup[0].style.display = "block";
       //no llego a entender porque esto me sale como null si esta bien declarado hace literalmente 3 lineas arriba
-      // nombre.value = puntero.value.Nombre;
-      // Apellidos.value = puntero.value.Apellido;
+      nombre.value = puntero.value.Nombre;
+      Apellidos.value = puntero.value.Apellido;
       Email.value = emailFijo;
       let img;
       imagen.addEventListener("click", (e) => {
