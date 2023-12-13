@@ -1,0 +1,27 @@
+* {
+  margin: 0 auto;
+}
+
+main {
+  width: fit-content;
+}
+
+canvas {
+  border: 5px solid rgb(102, 107, 110);
+  background-color: rgb(198, 255, 255);
+  border-radius: 10px;
+}
+hr{
+  margin: 20px;
+  border: 5px solid rgb(89, 91, 93);
+  border-radius: 10px;
+
+}
+#botones {
+  text-align: center;
+}
+button{
+  border: 2px solid rgb(102, 107, 110);
+  background-color: rgb(105, 250, 255);
+  border-radius: 10px;
+}
