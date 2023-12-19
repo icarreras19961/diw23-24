@@ -1,0 +1,3 @@
+arreglar admin para que solo mire la logout db
+arreglar el crypto js del sign in
+acabar con las imagnes esas

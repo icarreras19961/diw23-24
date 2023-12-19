@@ -18,11 +18,9 @@ function iniciarDB() {
   // console.log(btnGuardar);
   btnGuardar.addEventListener("click", (e) => {
     validador();
-    // if (validadoOK) {
+    if (validadoOK) {
       almacenarUser();
-    // } else {
-      // console.log("algo esta mal escrito");
-    // }
+    }
   });
 
   let solicitud = indexedDB.open("IvanDB");
@@ -70,8 +68,8 @@ function almacenarUser(e) {
   let email = document.querySelector("#email").value;
   console.log(document.querySelector("#email").value);
 
-  let password = document.querySelector("#password").value;
-  console.log(document.querySelector("#password").value);
+  let password = CryptoJS.MD5(document.querySelector("#password").value);
+  console.log(CryptoJS.MD5(document.querySelector("#password").value));
 
   let admin = document.querySelector("#admin").checked;
   console.log(document.querySelector("#admin").checked);
@@ -138,29 +136,63 @@ function validador() {
     email,
     document.querySelector("#password"),
   ];
-  console.log(obligatorio);
-  comprobaLognitud(document.querySelector("#nombre"), 3, 15);
-  comprobaLognitud(document.querySelector("#password"), 6, 25);
-  comprobaLognitud(document.querySelector("#password2"), 6, 25);
-  esObligatorio(obligatorio);
-
-  esEmailValid(email);
-  comprovaContrasenasSonIguales(
-    document.querySelector("#password"),
-    document.querySelector("#password2")
+  //Todas las comprobaciones
+  console.log("es obligatorio: " + esObligatorio(obligatorio));
+  console.log("el email es:" + esEmailValid(email));
+  console.log(
+    "contraseñas son iguales: " +
+      comprovaContrasenasSonIguales(
+        document.querySelector("#password"),
+        document.querySelector("#password2")
+      )
   );
-  return true;
+  console.log(
+    "longitud nombre: " +
+      comprobaLognitud(document.querySelector("#nombre"), 3, 15)
+  );
+  console.log(
+    "longitud apellido: " +
+      comprobaLognitud(document.querySelector("#apellido"), 3, 15)
+  );
+  console.log(
+    "longitud password: " +
+      comprobaLognitud(document.querySelector("#password"), 6, 25)
+  );
+  console.log(
+    "longitud password2: " +
+      comprobaLognitud(document.querySelector("#password2"), 6, 25)
+  );
+  if (
+    esObligatorio(obligatorio) &&
+    esEmailValid(email) &&
+    comprovaContrasenasSonIguales(
+      document.querySelector("#password"),
+      document.querySelector("#password2")
+    ) &&
+    comprobaLognitud(document.querySelector("#nombre"), 3, 15) &&
+    comprobaLognitud(document.querySelector("#apellido"), 3, 15) &&
+    comprobaLognitud(document.querySelector("#password"), 6, 25) &&
+    comprobaLognitud(document.querySelector("#password2"), 6, 25)
+  ) {
+    validadoOK = true;
+  }
+  console.log("validadorok = " + validadoOK);
 }
 
 //Validador de que sea obligatorio llenar el campo
 function esObligatorio(inputArray) {
+  let cont = 0;
   inputArray.forEach((input) => {
     if (input.value === "") {
       mostraError(input, `${prenNomInput(input)} es obligatorio`);
     } else {
       mostraCorrecte(input);
+      cont++;
     }
   });
+  if (cont == 4) {
+    return true;
+  }
 }
 function prenNomInput(input) {
   return input.id.charAt(0).toUpperCase() + input.id.slice(1);
@@ -173,9 +205,10 @@ function mostraCorrecte(input) {
 function esEmailValid(input) {
   const re =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
+  console.log("la comprobacion del email:" + re.test(input.value.trim()));
   if (re.test(input.value.trim())) {
     mostraCorrecte(input);
+    return true;
   } else {
     let mensaje = prenNomInput(input) + " no tiene el formato correcto";
     mostraError(input, mensaje);
@@ -197,6 +230,7 @@ function comprobaLognitud(input, min, max) {
     mostraError(input, "Ha de tener un maximo de: " + max + " caracteres");
   } else {
     mostraCorrecte(input);
+    return true;
   }
 }
 //Comprueva que las contraseñas sean iguales
@@ -205,6 +239,8 @@ function comprovaContrasenasSonIguales(input1, input2) {
     let mensaje =
       prenNomInput(input2) + " ha de ser igual a " + prenNomInput(input1);
     mostraError(input2, mensaje);
+  } else {
+    return true;
   }
 }
 window.addEventListener("load", iniciarDB());
