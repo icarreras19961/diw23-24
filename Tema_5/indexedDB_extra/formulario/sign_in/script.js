@@ -42,7 +42,7 @@ function mostrarUser(evento) {
   let puntero = evento.target.result;
   console.log(puntero.value.Email);
   console.log(puntero.value.Contrasena);
-  let contraseña=CryptoJS.MD5(password.value);
+  let contraseña = password.value;
   if (
     puntero.value.Email == email.value &&
     puntero.value.Contrasena == contraseña

@@ -5,6 +5,7 @@ var indexedDB =
   window.msIndexedDB ||
   window.shimIndexedDB;
 let db;
+let db2;
 let cajaUser;
 let validadoOK;
 const form = document.getElementById("form");
@@ -20,16 +21,22 @@ function iniciarDB() {
     validador();
     if (validadoOK) {
       almacenarUser();
+      almacenarUser2();
     }
   });
 
   let solicitud = indexedDB.open("IvanDB");
-
+  
   solicitud.addEventListener("error", mostrarError);
   solicitud.addEventListener("success", comenzar);
   solicitud.addEventListener("upgradeneeded", crearAlmacen);
-}
 
+  let solicitud2 = indexedDB.open("LogOut");
+  solicitud2.addEventListener("error", mostrarError);
+  solicitud.addEventListener("success", comenzar2);
+
+}
+//db1
 //En caso de que falle la peticio
 function mostrarError(error) {
   console.log("Hay un error en: " + error.code + " / " + error.message);
@@ -39,7 +46,6 @@ function comenzar(acceso) {
   db = acceso.target.result;
   muestra();
 }
-
 let img;
 imagen.addEventListener("click", (e) => {
   if (e.target.classList.contains("avatar")) {
@@ -68,16 +74,15 @@ function almacenarUser(e) {
   let email = document.querySelector("#email").value;
   console.log(document.querySelector("#email").value);
 
-  let password = CryptoJS.MD5(document.querySelector("#password").value);
-  console.log(CryptoJS.MD5(document.querySelector("#password").value));
-
+  let password = document.querySelector("#password").value;
+  console.log(document.querySelector("#password").value);
+  // let password = CryptoJS.MD5(document.querySelector("#password").value);
+  // console.log(CryptoJS.MD5(document.querySelector("#password").value));
   let admin = document.querySelector("#admin").checked;
   console.log(document.querySelector("#admin").checked);
 
   let transaccion = db.transaction(["User"], "readwrite");
   let almacen = transaccion.objectStore("User");
-  transaccion.addEventListener("complete", mostrarUser);
-
   almacen.add({
     Nombre: nombre,
     Apellido: apellido,
@@ -100,34 +105,46 @@ function almacenarUser(e) {
   }
 }
 
-function muestra() {
-  cajaUser.innerHTML = "";
-  console.log("la variable db: " + db);
-  let transaccion = db.transaction(["User"]);
-  let almacen = transaccion.objectStore("User");
-  let puntero = almacen.openCursor();
-  console.log(puntero);
-  puntero.addEventListener("success", mostrarUser);
+//db2
+function comenzar2(acceso) {
+  db2 = acceso.target.result;
+}
+function almacenarUser2(e) {
+  let nombre = document.querySelector("#nombre").value;
+  console.log(nombre);
+
+  let apellido = document.querySelector("#apellido").value;
+  console.log(document.querySelector("#apellido").value);
+
+  let email = document.querySelector("#email").value;
+  console.log(document.querySelector("#email").value);
+
+  let password = document.querySelector("#password").value;
+  console.log(document.querySelector("#password").value);
+  // let password = CryptoJS.MD5(document.querySelector("#password").value);
+  // console.log(CryptoJS.MD5(document.querySelector("#password").value));
+  let admin = document.querySelector("#admin").checked;
+  console.log(document.querySelector("#admin").checked);
+
+  let transaccion = db2.transaction(["User2"], "readwrite");
+  let almacen = transaccion.objectStore("User2");
+  almacen.add({
+    Nombre: nombre,
+    Apellido: apellido,
+    Email: email,
+    Contrasena: password,
+    Avatar: img,
+    Admin: admin,
+  });
+
+  document.querySelector("#nombre").value = "";
+  document.querySelector("#apellido").value = "";
+  document.querySelector("#email").value = "";
+  document.querySelector("#password").value = "";
+  // document.querySelector("#password").value = "";
+  document.querySelector("#admin").value = "";
 }
 
-function mostrarUser(evento) {
-  console.log(evento);
-  let puntero = evento.target.result;
-  if (puntero) {
-    cajaUser.innerHTML +=
-      "<div>" +
-      "Nombre: " +
-      puntero.value.Nombre +
-      " " +
-      puntero.value.Apellido +
-      " / Email: " +
-      puntero.value.Email +
-      " / Contraseña: " +
-      puntero.value.password +
-      "</div>";
-    puntero.continue();
-  }
-}
 //Los validadores 100% originales que para nada estan copiados de un ejercicio de Joan
 function validador() {
   let obligatorio = [
