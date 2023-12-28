@@ -50,3 +50,19 @@
   right: 8px;
   cursor: pointer;
 }
+/*POPUP userDel*/
+.envoltorio-popup-userDel {
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+.cerrar-popup-userDel {
+  position: absolute;
+  top: 5px;
+  right: 8px;
+  cursor: pointer;
+}

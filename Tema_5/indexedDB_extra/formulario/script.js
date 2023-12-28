@@ -33,7 +33,7 @@ function iniciarDB() {
 
   let solicitud2 = indexedDB.open("LogOut");
   solicitud2.addEventListener("error", mostrarError);
-  solicitud.addEventListener("success", comenzar2);
+  solicitud2.addEventListener("success", comenzar2);
 
 }
 //db1
@@ -44,7 +44,6 @@ function mostrarError(error) {
 //en caso de que se arranque correctamente
 function comenzar(acceso) {
   db = acceso.target.result;
-  muestra();
 }
 let img;
 imagen.addEventListener("click", (e) => {
@@ -91,18 +90,7 @@ function almacenarUser(e) {
     Avatar: img,
     Admin: admin,
   });
-
-  document.querySelector("#nombre").value = "";
-  document.querySelector("#apellido").value = "";
-  document.querySelector("#email").value = "";
-  document.querySelector("#password").value = "";
-  // document.querySelector("#password").value = "";
-  document.querySelector("#admin").value = "";
-  if (admin) {
-    window.location.href = "./../admin/admin.html";
-  } else {
-    window.location.href = "./../index.html";
-  }
+ 
 }
 
 //db2
@@ -137,12 +125,11 @@ function almacenarUser2(e) {
     Admin: admin,
   });
 
-  document.querySelector("#nombre").value = "";
-  document.querySelector("#apellido").value = "";
-  document.querySelector("#email").value = "";
-  document.querySelector("#password").value = "";
-  // document.querySelector("#password").value = "";
-  document.querySelector("#admin").value = "";
+  if (admin) {
+    window.location.href = "./../admin/admin.html";
+  } else {
+    window.location.href = "./../index.html";
+  }
 }
 
 //Los validadores 100% originales que para nada estan copiados de un ejercicio de Joan

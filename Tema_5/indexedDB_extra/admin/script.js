@@ -9,6 +9,7 @@ let db2;
 let ajustes;
 let password;
 let cajaUser;
+let emailUserLoged;
 
 //variables popup
 let envoltoriPopup = document.getElementsByClassName("envoltorio-popup");
@@ -26,6 +27,15 @@ let pwd2 = document.getElementById("password2");
 let envoltoriPopupPwd = document.getElementsByClassName("envoltorio-popup-pwd");
 let cerrarPopupPwd = document.getElementsByClassName("cerrar-popup-pwd");
 let enviaFormPwd = document.getElementById("envia-form-pwd");
+
+//Pop Up userDel
+let envoltorioPopupUserDel = document.getElementsByClassName(
+  "envoltorio-popup-userDel"
+);
+let cerrarPopupUserDel = document.getElementsByClassName(
+  "cerrar-popup-userDel"
+);
+let enviaFormUserDel = document.getElementById("envia-form-userDel");
 
 function iniciarDB() {
   cajaUser = document.querySelector("#cajaUser");
@@ -68,6 +78,7 @@ function muestra2() {
 //solo se mira el usuario registrado
 function userLoged(evento) {
   let puntero = evento.target.result;
+  emailUserLoged = puntero.value.Email;
   if (puntero.value.Admin == false) {
     window.location.href = "../index.html";
   }
@@ -88,11 +99,12 @@ function mostrarUser(evento) {
       Nombre: ${user["Nombre"]} ${user["Apellido"]} / Email: ${user["Email"]}
       / Contraseña: ${user["Contrasena"]}
       <button class='btn gris chgPwd'>Cambiar Contraseña</button>
-      <button class='btn gris' id='userDel'>Delete User</button>
+      <button class='btn gris userDel'>Delete User</button>
       </div><button class='col-lg-2 h-50 mt-4 btn gris ajustes'>Ajustes</button> <hr>`;
     });
     let ajustes = document.querySelectorAll(".ajustes");
     let chgPwd = document.querySelectorAll(".chgPwd");
+    let userDel = document.querySelectorAll(".userDel");
 
     for (let i = 0; i < users.length; i++) {
       ajustes[i].addEventListener("click", (e) => {
@@ -116,14 +128,17 @@ function mostrarUser(evento) {
             Apellidos.value,
             Email.value,
             img,
-            users[i].Contrasena
+            users[i].Contrasena,
+            users[i].Admin
           );
+          envoltoriPopup[0].style.display = "none";
+          window.location.reload();
         });
         cerrarPopup[0].addEventListener("click", (e) => {
           envoltoriPopup[0].style.display = "none";
         });
 
-        function actualizarUser(nombre, apellido, email, img, pwd) {
+        function actualizarUser(nombre, apellido, email, img, pwd, admin) {
           //se crea uno nuevo cada vez que pones un key distinto pero al punter.value.email ser undefined nose que hacer
           let transaccion = db2.transaction(["User2"], "readwrite");
           let almacen = transaccion.objectStore("User2");
@@ -133,23 +148,26 @@ function mostrarUser(evento) {
             Email: email,
             Avatar: img,
             Contrasena: pwd,
+            Admin: admin,
           });
 
+          let transaccion2 = db.transaction(["User"], "readwrite");
+          let almacen2 = transaccion2.objectStore("User");
+          if (users[i].Email == emailUserLoged) {
+            almacen2.put({
+              Nombre: nombre,
+              Apellido: apellido,
+              Email: email,
+              Avatar: img,
+              Admin: admin,
+              Contrasena: pwd,
+            });
+          }
           //si el que esta registrado quiere cambiar cosas
-          //   let transaccion2 = db.transaction(["User"], "readwrite");
-          //   let almacen2 = transaccion2.objectStore("User");
-          //   almacen2.put({
-          //     Nombre: nombre,
-          //     Apellido: apellido,
-          //     Email: email,
-          //     Avatar: img,
-          //     Contrasena: pwd,
-          //   });
-          //   window.location.reload();
         }
-        //el popup de la contraseña
       });
 
+      //el popup de la contraseña
       chgPwd[i].addEventListener("click", (e) => {
         e.preventDefault();
         // pwd.value = puntero.value.contrasena;
@@ -158,11 +176,12 @@ function mostrarUser(evento) {
           // console.log(pwd.value+" "+pwd2.value);
           if (pwd.value == pwd2.value) {
             actualizarpwd(
-              pwd,
+              pwd.value,
               users[i].Nombre,
               users[i].Apellido,
               users[i].Email,
-              users[i].Avatar
+              users[i].Avatar,
+              users[i].Admin
             );
           } else {
             console.log("hola");
@@ -171,7 +190,8 @@ function mostrarUser(evento) {
             errorPWD.style.color = "red";
           }
         });
-        function actualizarpwd(pwd, nombre, apellido, email, img) {
+        function actualizarpwd(pwd, nombre, apellido, email, img, admin) {
+          console.log(pwd + nombre + apellido + email + img);
           let transaccion2 = db2.transaction(["User2"], "readwrite");
           let almacen = transaccion2.objectStore("User2");
           almacen.put({
@@ -180,6 +200,7 @@ function mostrarUser(evento) {
             Email: email,
             Avatar: img,
             Contrasena: pwd,
+            Admin: admin,
           });
           window.location.reload();
         }
@@ -187,111 +208,44 @@ function mostrarUser(evento) {
       cerrarPopupPwd[0].addEventListener("click", (e) => {
         envoltoriPopupPwd[0].style.display = "none";
       });
+
+      //El pop up de borrar cuenta
+      userDel[i].addEventListener("click", (e) => {
+        e.preventDefault();
+        envoltorioPopupUserDel[0].style.display = "block";
+        enviaFormUserDel.addEventListener("click", (e) => {
+          deleteUser(users[i].Email);
+        });
+      });
+      cerrarPopupUserDel[0].addEventListener("click", (e) => {
+        envoltorioPopupUserDel[0].style.display = "none";
+      });
+      function deleteUser(email) {
+        console.log(email);
+        let transaccion2 = db2.transaction(["User2"], "readwrite");
+        let almacen = transaccion2.objectStore("User2");
+        let borraUser = almacen.delete(email);
+        borraUser.success = () => {
+          console.log("se ha borrado correctamente");
+        };
+        borraUser.error = () => {
+          console.log("No se ha borrado");
+        };
+        if (users[i].Email == emailUserLoged) {
+          let transaccion = db.transaction(["User"], "readwrite");
+          let almacen = transaccion.objectStore("User");
+          let borraUser = almacen.clear(email);
+          borraUser.onsuccess = () => {
+            window.location.href = "./../index.html";
+          };
+          borraUser.onerror = () => {
+            console.log("No se ha borrado");
+          };
+        }
+        window.location.reload();
+      }
     }
   }
-  // let emailFijo;
-  // if (puntero.length != 0) {
-  //   emailFijo = puntero.value.Email;
-  //   cajaUser.innerHTML +=
-  //     "<div class='col-lg-9 mx-auto p-3'>" +
-  //     "<img class='avatar' src=" +
-  //     imagen_perfil.src +
-  //     " width='50px' height='50px' style='border-radius: 55px;'> " +
-  //     "Nombre: " +
-  //     puntero.value.Nombre +
-  //     " " +
-  //     puntero.value.Apellido +
-  //     " / Email: " +
-  //     puntero.value.Email +
-  //     " / Contraseña: " +
-  //     puntero.value.Contrasena +
-  //     " <button class='btn gris' id='chgPwd'>Cambiar Contraseña</button>" +
-  //     " <button class='btn gris' id='userDel'>Delete User</button>" +
-  //     `</div><button class='col-lg-2 h-50 mt-4 btn gris 'id='ajustes-${puntero.value.Email}'>Ajustes</button> <hr>`;
-
-  //     //el popup de la contraseña
-  //   password = document.getElementById("chgPwd");
-  //   password.addEventListener("click", (e) => {
-  //     e.preventDefault();
-  //     console.log(puntero.value.Nombre);
-  //     // pwd.value = puntero.value.contrasena;
-  //     envoltoriPopupPwd[0].style.display = "block";
-  //     enviaFormPwd.addEventListener("click", (e) => {
-  //       // console.log(pwd.value+" "+pwd2.value);
-  //       if (pwd.value == pwd2.value) {
-  //         actualizarpwd(
-  //           pwd,
-  //           puntero.value.Nombre,
-  //           puntero.value.Apellido,
-  //           puntero.value.Email,
-  //           puntero.value.Avatar
-  //         );
-  //       } else {
-  //         console.log("hola");
-  //         let errorPWD = document.getElementById("errorPWD");
-  //         errorPWD.innerText = "Las contraseñas no coinciden";
-  //         errorPWD.style.color = "red";
-  //       }
-  //     });
-  //     function actualizarpwd(pwd, nombre, apellido, email, img) {
-  //       let transaccion = db.transaction(["User"], "readwrite");
-  //       let almacen = transaccion.objectStore("User");
-  //       almacen.put({
-  //         Nombre: nombre,
-  //         Apellido: apellido,
-  //         Email: email,
-  //         Avatar: img,
-  //         Contrasena: pwd,
-  //       });
-  //       window.location.reload();
-  //     }
-  //   });
-  //   cerrarPopupPwd[0].addEventListener("click", (e) => {
-  //     envoltoriPopupPwd[0].style.display = "none";
-  //   });
-
-  //   //el pop up de lo sajustes
-  //   ajustes = document.getElementById("ajustes-" + puntero.value.Email);
-  //   console.log(ajustes);
-  //   ajustes.addEventListener("click", (e) => {
-  //     console.log("hola");
-  //     e.preventDefault(); //para que no recargue la pagina
-  //     // Lo que muestra los resultados de la base de datos en los inputs del popup
-  //     envoltoriPopup[0].style.display = "block";
-  //     //no llego a entender porque esto me sale como null si esta bien declarado hace literalmente 3 lineas arriba
-  //     nombre.value = puntero.value.Nombre;
-  //     Apellidos.value = puntero.value.Apellido;
-  //     Email.value = emailFijo;
-  //     let img;
-  //     imagen.addEventListener("click", (e) => {
-  //       if (e.target.classList.contains("avatar")) {
-  //         img = e.target.getAttribute("ruta");
-  //         console.log(e.target.getAttribute("ruta"));
-  //       }
-  //     });
-  //     enviaForm.addEventListener("click", (e) => {
-  //       actualizarUser(nombre.value, Apellidos.value, emailFijo, img);
-  //     });
-  //     cerrarPopup[0].addEventListener("click", (e) => {
-  //       envoltoriPopup[0].style.display = "none";
-  //     });
-
-  //     function actualizarUser(nombre, apellido, email, img, pwd) {
-  //       //se crea uno nuevo cada vez que pones un key distinto pero al punter.value.email ser undefined nose que hacer
-  //       let transaccion = db.transaction(["User"], "readwrite");
-  //       let almacen = transaccion.objectStore("User");
-
-  //       almacen.put({
-  //         Nombre: nombre,
-  //         Apellido: apellido,
-  //         Email: email,
-  //         Avatar: img,
-  //         Contrasena: puntero.value.Contrasena,
-  //       });
-  //       window.location.reload();
-  //     }
-  //   });
-  //   puntero.continue();
 }
 
 window.addEventListener("load", iniciarDB());
