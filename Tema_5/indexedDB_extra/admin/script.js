@@ -22,6 +22,8 @@ let imagen = document.getElementById("imagen");
 let enviaForm = document.getElementById("envia_form");
 let pwd = document.getElementById("password");
 let pwd2 = document.getElementById("password2");
+let btn_s_out = document.getElementById("btn_s_out");
+
 
 //POP UP PWD
 let envoltoriPopupPwd = document.getElementsByClassName("envoltorio-popup-pwd");
@@ -88,6 +90,10 @@ function userLoged(evento) {
   botonRegistro.style.display = "none";
   imagen_perfil.src = "../formulario/" + puntero.value.Avatar;
   imagen_perfil.style.borderRadius = "25px";
+  btn_s_out.addEventListener("click", (e) => {
+    almacenarUser(puntero);
+    vaciarIvanDB();
+  });
 }
 function mostrarUser(evento) {
   let users = evento.target.result;
@@ -246,6 +252,38 @@ function mostrarUser(evento) {
       }
     }
   }
+}
+function almacenarUser(puntero) {
+  // console.log("patata" + puntero);
+  let transaccion = db2.transaction(["User2"], "readwrite");
+  let almacen = transaccion.objectStore("User2");
+
+  let nombre = puntero.value.Nombre;
+  let apellido = puntero.value.Apellido;
+  let email = puntero.value.Email;
+  let password = puntero.value.Contrasena;
+  let img = puntero.value.Avatar;
+  let admin = puntero.value.Admin;
+  almacen.add({
+    Nombre: nombre,
+    Apellido: apellido,
+    Email: email,
+    Contrasena: password,
+    Avatar: img,
+    Admin: admin,
+  });
+}
+function vaciarIvanDB() {
+  console.log(db);
+  let transaccion = db.transaction(["User"], "readwrite");
+  let almacen = transaccion.objectStore("User");
+  almacen.clear();
+  btn_perfil.style.display = "none";
+  btn_s_out.style.display = "none";
+  btn_s_in.style.display = "inline-block";
+  botonRegistro.style.display = "inline-block";
+  imagen_perfil.src = "iconos/perfilclaro.png";
+  window.location.href = "./../index.html";
 }
 
 window.addEventListener("load", iniciarDB());

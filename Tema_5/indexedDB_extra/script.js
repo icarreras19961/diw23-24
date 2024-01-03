@@ -81,9 +81,9 @@ function mostrarUser2(evento) {
     imagen_perfil.src = "./formulario/" + puntero.value.Avatar;
     imagen_perfil.style.borderRadius = "25px";
     // No se como hacerlo para que cuando vaya al index no se redireccione es decir que solo lo haga cuando inicia la pantalla
-    // if (puntero.value.Admin) {
-    //   window.location.href = "admin/admin.html";
-    // }
+    if (puntero.value.Admin) {
+      btn_admin.style.display = "inline-block";
+    }
   }
 
   btn_s_out.addEventListener("click", (e) => {
@@ -129,6 +129,7 @@ function vaciarIvanDB() {
   btn_s_in.style.display = "inline-block";
   botonRegistro.style.display = "inline-block";
   imagen_perfil.src = "iconos/perfilclaro.png";
+  window.location.reload;
 }
 window.addEventListener("load", iniciarDB());
 window.addEventListener("load", iniciarDB2());

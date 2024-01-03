@@ -36,6 +36,9 @@ main {
 #perfil > p > button {
   box-shadow: 2px 3px 5px #000060;
 }
+#btn_admin {
+  display: none;
+}
 #btn_perfil {
   display: none;
 }

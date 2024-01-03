@@ -53,40 +53,25 @@ function comenzar(acceso) {
   muestra();
 }
 function muestra() {
-  let transaccion = db.transaction(["User"]);
-  let almacen = transaccion.objectStore("User");
-  let puntero = almacen.openCursor();
-  console.log("puntero " + puntero);
+  
+  let puntero = db.transaction("User").objectStore("User").getAll();
   puntero.addEventListener("success", userLoged);
+  puntero.addEventListener("success", mostrarUser);
+
 }
 
-//db2
-function iniciarDB2() {
-  //db2
-  let solicitud2 = indexedDB.open("LogOut");
-  solicitud2.addEventListener("error", mostrarError);
-  solicitud2.addEventListener("success", comenzar2);
-}
-function comenzar2(acceso) {
-  db2 = acceso.target.result;
-  muestra2();
-}
-function muestra2() {
-  let puntero = db2.transaction("User2").objectStore("User2").getAll();
-  puntero.addEventListener("success", mostrarUser);
-}
+
 //solo se mira el usuario registrado
 function userLoged(evento) {
   let puntero = evento.target.result;
-  emailUserLoged = puntero.value.Email;
-  if (puntero.value.Admin == false) {
-    window.location.href = "../index.html";
-  }
+  console.log(puntero);
+  emailUserLoged = puntero.Email;
   btn_perfil.style.display = "inline-block";
   btn_s_out.style.display = "inline-block";
   btn_s_in.style.display = "none";
   botonRegistro.style.display = "none";
-  imagen_perfil.src = "../formulario/" + puntero.value.Avatar;
+  imagen_perfil.src = `../formulario/${puntero[0]["Avatar"]}`;
+  console.log(imagen_perfil.src);
   imagen_perfil.style.borderRadius = "25px";
 }
 function mostrarUser(evento) {
@@ -140,8 +125,8 @@ function mostrarUser(evento) {
 
         function actualizarUser(nombre, apellido, email, img, pwd, admin) {
           //se crea uno nuevo cada vez que pones un key distinto pero al punter.value.email ser undefined nose que hacer
-          let transaccion = db2.transaction(["User2"], "readwrite");
-          let almacen = transaccion.objectStore("User2");
+          let transaccion = db.transaction(["User"], "readwrite");
+          let almacen = transaccion.objectStore("User");
           almacen.put({
             Nombre: nombre,
             Apellido: apellido,
@@ -150,20 +135,6 @@ function mostrarUser(evento) {
             Contrasena: pwd,
             Admin: admin,
           });
-
-          let transaccion2 = db.transaction(["User"], "readwrite");
-          let almacen2 = transaccion2.objectStore("User");
-          if (users[i].Email == emailUserLoged) {
-            almacen2.put({
-              Nombre: nombre,
-              Apellido: apellido,
-              Email: email,
-              Avatar: img,
-              Admin: admin,
-              Contrasena: pwd,
-            });
-          }
-          //si el que esta registrado quiere cambiar cosas
         }
       });
 
@@ -192,8 +163,8 @@ function mostrarUser(evento) {
         });
         function actualizarpwd(pwd, nombre, apellido, email, img, admin) {
           console.log(pwd + nombre + apellido + email + img);
-          let transaccion2 = db2.transaction(["User2"], "readwrite");
-          let almacen = transaccion2.objectStore("User2");
+          let transaccion2 = db.transaction(["User"], "readwrite");
+          let almacen = transaccion2.objectStore("User");
           almacen.put({
             Nombre: nombre,
             Apellido: apellido,
@@ -222,31 +193,19 @@ function mostrarUser(evento) {
       });
       function deleteUser(email) {
         console.log(email);
-        let transaccion2 = db2.transaction(["User2"], "readwrite");
-        let almacen = transaccion2.objectStore("User2");
+        let transaccion = db.transaction(["User"], "readwrite");
+        let almacen = transaccion.objectStore("User");
         let borraUser = almacen.delete(email);
-        borraUser.success = () => {
+        borraUser.onsuccess = () => {
           console.log("se ha borrado correctamente");
+          window.location.href = "./../index.html";
         };
-        borraUser.error = () => {
+        borraUser.onerror = () => {
           console.log("No se ha borrado");
         };
-        if (users[i].Email == emailUserLoged) {
-          let transaccion = db.transaction(["User"], "readwrite");
-          let almacen = transaccion.objectStore("User");
-          let borraUser = almacen.clear(email);
-          borraUser.onsuccess = () => {
-            window.location.href = "./../index.html";
-          };
-          borraUser.onerror = () => {
-            console.log("No se ha borrado");
-          };
-        }
-        window.location.reload();
       }
     }
   }
 }
 
 window.addEventListener("load", iniciarDB());
-window.addEventListener("load", iniciarDB2());
