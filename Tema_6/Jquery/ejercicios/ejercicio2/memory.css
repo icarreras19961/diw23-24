@@ -8,9 +8,9 @@ body {
   align-items: center;
 }
 #bodyMem {
-  background-color: rgb(159, 255, 239);
+  background-color: rgb(159, 225, 255);
   margin: 10px;
-  border: 10px solid brown;
+  border: 10px solid rgb(165, 81, 42);
   border-radius: 10px;
   width: 1000px;
   display: flex;
@@ -18,7 +18,7 @@ body {
   justify-content: center;
 }
 
-#rana {
+.rana {
   text-align: center;
   border: 2px solid rgb(2, 185, 2);
   border-radius: 100%;
@@ -26,7 +26,14 @@ body {
   height: 170px;
   width: 170px;
   background-color: rgb(40, 117, 37);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .number{
-  position: absolute
+  /* color: rgb(40, 117, 37); */
+  font-size: xx-large;
+  position: absolute;
+  height: 0px;
+  display: none;
 }
