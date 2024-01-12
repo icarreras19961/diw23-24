@@ -18,7 +18,7 @@ body {
   justify-content: center;
 }
 
-.rana {
+.frog {
   text-align: center;
   border: 2px solid rgb(2, 185, 2);
   border-radius: 100%;
@@ -30,10 +30,14 @@ body {
   justify-content: center;
   align-items: center;
 }
-.number{
-  /* color: rgb(40, 117, 37); */
+.number {
+  color: rgb(125, 0, 203);
   font-size: xx-large;
   position: absolute;
   height: 0px;
   display: none;
+}
+.check span,
+.check ~ span {
+  display: block;
 }
