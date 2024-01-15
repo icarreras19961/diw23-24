@@ -4,7 +4,9 @@ $(document).ready(function () {
   let ncards = Math.floor(Math.random() * (24 - 12) + 12);
   let arrayJuego = [];
   let tries = [];
+  let selecFrog = [];
   let ntries = 0;
+  let score = 0;
   if (ncards % 2 != 0) {
     ncards++;
   }
@@ -35,19 +37,45 @@ $(document).ready(function () {
   }
 
   //The listeners that you click and do thinks
-  $(".frog").on("click",  function(e) {
+  $(".frog").on("click", function (e) {
     $(this).addClass("check");
     // console.log($(this).text());
     tries[ntries] = $(this).text();
-    ntries++;
-    analizator(tries);
+    selecFrog[ntries] = $(this);
+    if (ntries == 1) {
+      ntries = 0;
+    } else {
+      ntries++;
+    }
+    console.log("n: " + ntries);
+    analizator(tries, selecFrog);
   });
 
-  function analizator(tries) {
+  function analizator(tries, selecFrog) {
     console.log(tries.length);
     if (tries.length == 2) {
-      tries.splice();
+      console.log(tries);
+      setTimeout(function () {
+        console.log("hola");
+        comprobador(tries, selecFrog);
+        tries.splice(0, tries.length);
+      }, 500);
     }
     console.log(tries);
+  }
+
+  function comprobador(tries, selecFrog) {
+    let n1 = tries[0];
+    let n2 = tries[1];
+    if (n1 == n2) {
+      score++;
+      console.log("puntos " + score);
+    } else {
+      selecFrog[0].removeClass("check");
+      selecFrog[1].removeClass("check");
+    }
+    if (score == ncards / 2) {
+    alert("You Win :D")
+    }
   }
 });
