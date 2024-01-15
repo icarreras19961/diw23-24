@@ -16,9 +16,22 @@ $(document).ready(function () {
   //Fill the desk with the frogs
   for (let i = 1; i <= ncards; i++) {
     $("#bodyMem").append(
-      `<div class="frog"><img src="imagenes/Original.png" class="img_frog"><span class="number">${
-        arrayJuego[i - 1]
-      }</span></div>`
+      // `<div class="frog"><img src="imagenes/Original.png" class="img_frog"><span class="number">${
+      //   arrayJuego[i - 1]
+      // }</span></div>`
+      `<div class="frog">
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="imagenes/Original copy.png">
+          </div>
+          <div class="flip-card-back">
+            <img src="imagenes/Original.png" class="img_frog">
+            <span class="number">${arrayJuego[i - 1]}</span>
+          </div>
+        </div>
+      </div>
+    </div>`
     );
   }
 
@@ -39,6 +52,7 @@ $(document).ready(function () {
   //The listeners that you click and do thinks
   $(".frog").on("click", function (e) {
     $(this).addClass("check");
+    $(".flip-card-inner").addClass(".flip-card-back");
     // console.log($(this).text());
     tries[ntries] = $(this).text();
     selecFrog[ntries] = $(this);
@@ -75,7 +89,7 @@ $(document).ready(function () {
       selecFrog[1].removeClass("check");
     }
     if (score == ncards / 2) {
-    alert("You Win :D")
+      alert("You Win :D");
     }
   }
 });
