@@ -52,7 +52,7 @@ $(document).ready(function () {
   //The listeners that you click and do thinks
   $(".frog").on("click", function (e) {
     $(this).addClass("check");
-    $(".flip-card-inner").addClass(".flip-card-back");
+    $(this).find(".flip-card-inner").addClass("flip-card-back");
     // console.log($(this).text());
     tries[ntries] = $(this).text();
     selecFrog[ntries] = $(this);
@@ -87,6 +87,8 @@ $(document).ready(function () {
     } else {
       selecFrog[0].removeClass("check");
       selecFrog[1].removeClass("check");
+      selecFrog[0].find(".flip-card-inner").removeClass("flip-card-back");
+      selecFrog[1].find(".flip-card-inner").removeClass("flip-card-back");
     }
     if (score == ncards / 2) {
       alert("You Win :D");

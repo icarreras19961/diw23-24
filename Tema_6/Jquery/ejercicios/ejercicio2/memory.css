@@ -39,6 +39,10 @@ body {
   height: 0px;
   display: none;
 }
+span{
+  margin-top: -70px;
+  margin-left: 70px;
+}
 .check span,
 .check ~ span {
   display: block;
@@ -61,9 +65,6 @@ body {
   transform-style: preserve-3d;
 }
 
-.flip-card:hover .flip-card-inner {
-  transform: rotateY(180deg);
-}
 
 .flip-card-front, .flip-card-back {
   position: absolute;
@@ -75,8 +76,4 @@ body {
 
 .flip-card-back {
   transform: rotateY(180deg);
-}
-.fliped-frog{
-  transform: rotateY(180deg);
-
 }
