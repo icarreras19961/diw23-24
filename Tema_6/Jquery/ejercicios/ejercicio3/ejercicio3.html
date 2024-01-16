@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    span {
+        display: block;
+    }
+  </style>
+  <body>
+    <main>
+      <textarea cols="30" rows="5">Hola</textarea>
+      <span></span>
+      <br />
+      <br />
+      <textarea cols="30" rows="5">Anoderuan</textarea>
+      <span></span>
+      <br />
+    </main>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      $(document).ready(function () {
+        $("textarea").on("keyup", function (e) {
+          console.log($(this).val().length);
+          $(this)
+            .next()
+            .text($(this).val().length + " Characters");
+        });
+      });
+    </script>
+  </body>
+</html>
