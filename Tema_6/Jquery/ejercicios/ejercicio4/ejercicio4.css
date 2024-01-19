@@ -1,0 +1,40 @@
+.posit {
+  height: 20px;
+  width: 20px;
+  position: absolute;
+}
+.red {
+  background-color: red;
+}
+.blue {
+  background-color: blue;
+}
+.green {
+  background-color: green;
+}
+.colum {
+  float: right;
+  display: flex;
+  align-items: stretch;
+  justify-content: end;
+  flex-direction: row;
+  width: 50%;
+  height: 500px;
+}
+.list {
+  margin: 10px;
+  width: 100px;
+  height: 100%;
+  border-radius: 5px;
+  border: 1px solid black;
+  padding: 5px;
+}
+#tooDo {
+  background-color: rgb(255, 151, 151);
+}
+#doing {
+  background-color: rgb(151, 212, 255);
+}
+#donete {
+  background-color: rgb(151, 255, 154);
+}

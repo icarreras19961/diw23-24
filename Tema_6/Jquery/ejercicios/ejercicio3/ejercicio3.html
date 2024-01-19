@@ -3,21 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Ejercicio3</title>
   </head>
   <style>
     span {
-        display: block;
+      display: block;
     }
   </style>
   <body>
     <main>
       <textarea cols="30" rows="5">Hola</textarea>
-      <span></span>
       <br />
       <br />
       <textarea cols="30" rows="5">Anoderuan</textarea>
-      <span></span>
       <br />
     </main>
     <script
@@ -27,11 +25,27 @@
     ></script>
     <script>
       $(document).ready(function () {
-        $("textarea").on("keyup", function (e) {
-          console.log($(this).val().length);
-          $(this)
+        // $("textarea").on("keyup", function (e) {
+        //   console.log($(this).val().length);
+        //   $(this)
+        //     .next()
+        //     .text($(this).val().length + " Characters");
+        // });
+        $("textarea").after("<span></span>");
+        $("textarea").each((index, e) => {
+          $(e).data("letras", $(e).val().length);
+          $(e)
             .next()
-            .text($(this).val().length + " Characters");
+            .text($(e).data("letras") + " Characters");
+        });
+
+        $("textarea").each((index, e) => {
+          $(e).on("keyup", () => {
+            $(e).data("letras", $(e).val().length);
+            $(e)
+              .next()
+              .text($(e).data("letras") + " Characters");
+          });
         });
       });
     </script>
