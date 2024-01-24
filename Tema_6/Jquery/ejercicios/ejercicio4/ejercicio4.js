@@ -3,8 +3,11 @@ $(document).ready(function () {
   let ntooDo = 0;
   let ndoing = 0;
   let ndonete = 0;
+  let contId = 0;
   $("#genereitor").on("click", () => {
     let colorRand = Math.floor(Math.random() * (4 - 1) + 1);
+    let xRand = Math.floor(Math.random() * (400 - 1) + 1);
+    let yRand = Math.floor(Math.random() * (400 - 1) + 1);
 
     if (colorRand == 1) {
       colorClass = "red";
@@ -13,27 +16,47 @@ $(document).ready(function () {
     } else if (colorRand == 3) {
       colorClass = "green";
     }
-    $("#genereitor").after(`<div class='posit ${colorClass}'></div>`);
-    if (
-      $(".posit").data("droped") == true ||
-      !$(".posit").data("droped") == undefined
-    ) {
-      $(".posit").data("droped", true);
-    } else {
-      $(".posit").data("droped", false);
-    }
+
+    let postit = $(
+      `<div id='${contId}' class='posit ${colorClass}' style='left:${xRand}px; top:${yRand}px;'><span class="cerrar_posit" onclick="esconder(${contId})">X</span><h2>Titulo</h2></div>`
+    );
+    $("#genereitor").after(postit);
+
+    postit.data("droped", false);
+
     console.log($(".posit").data("droped"));
-    $(".posit").draggable();
+    // $(".posit").draggable();
+    // postit.resizable({
+    //   maxHeight: 250,
+    //   maxWidth: 350,
+    //   minHeight: 150,
+    //   minWidth: 200
+    // });
+
+    postit.draggable();
+    contId++;
+    function esconder(contId) {
+      $("contId").hide();
+    }
   });
   $("#tooDo").droppable({
     accept: ".red",
     drop: function (event, e) {
-      console.log($(e.draggable).data());
+      // console.log($(e));
       if ($(e.draggable).data("droped") == false) {
         $(e.draggable).data("droped", true);
         ntooDo++;
       }
-      console.log(ntooDo);
+      // console.log(ntooDo);
+      $(this).find("span").text(ntooDo);
+    },
+    out: function (event, e) {
+      // console.log($(e));
+      if ($(e.draggable).data("droped") == true) {
+        $(e.draggable).data("droped", false);
+        ntooDo--;
+      }
+      // console.log(ntooDo);
       $(this).find("span").text(ntooDo);
     },
   });
@@ -46,6 +69,15 @@ $(document).ready(function () {
       }
       $(this).find("span").text(ndoing);
     },
+    out: function (event, e) {
+      // console.log($(e));
+      if ($(e.draggable).data("droped") == true) {
+        $(e.draggable).data("droped", false);
+        ndoing--;
+      }
+      // console.log(ntooDo);
+      $(this).find("span").text(ndoing);
+    },
   });
   $("#donete").droppable({
     accept: ".green",
@@ -56,11 +88,16 @@ $(document).ready(function () {
       }
       $(this).find("span").text(ndonete);
     },
-  });
-  $("main").droppable({
-    drop: function (event, e) {
+    out: function (event, e) {
+      // console.log($(e));
       if ($(e.draggable).data("droped") == true) {
+        $(e.draggable).data("droped", false);
+        ndonete--;
       }
+      // console.log(ntooDo);
+      $(this).find("span").text(ndonete);
     },
   });
+
+  // Que sean un posit
 });
