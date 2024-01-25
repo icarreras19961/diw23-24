@@ -18,9 +18,11 @@ $(document).ready(function () {
     }
 
     let postit = $(
-      `<div id='${contId}' class='posit ${colorClass}' style='left:${xRand}px; top:${yRand}px;'><span class="cerrar_posit" onclick="esconder(${contId})">X</span><h2>Titulo</h2></div>`
+      `<div id='${contId}' class='posit ${colorClass}' style='left:${xRand}px; top:${yRand}px;'><button id="cerrar_posit_${contId}">X</button><button id="btnTA${contId}">»</button><h2>Post It</h2><textarea name="" id="" cols="30" rows="10"></textarea></div>`
     );
     $("#genereitor").after(postit);
+    $("#cerrar_posit_" + contId).on("click", { contId: contId }, esconder);
+    $("btnTA" + contId).on("click", { contId: contId }, hideTA);
 
     postit.data("droped", false);
 
@@ -35,8 +37,14 @@ $(document).ready(function () {
 
     postit.draggable();
     contId++;
-    function esconder(contId) {
-      $("contId").hide();
+    function esconder(event) {
+      // console.log(event.data.contId);
+      console.log($("#" + event.data.contId));
+      // if ($("#" + event.data.contId).hasClass("red")) {}
+      $("#" + event.data.contId).remove();
+    }
+    function hideTA(event) {
+      $("#" + event.data.contId)
     }
   });
   $("#tooDo").droppable({
