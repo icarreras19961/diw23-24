@@ -4,23 +4,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>no se hacerlo</title>
+  <title>no se hacerlo(al final si supe)</title>
   <link rel="stylesheet" href="ejercicio4.css" />
   <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 </head>
 
 <body>
   <main>
+    <!-- The colums where the posits have to be placed -->
     <div class="colum">
-      <div id="tooDo" class="list">Too do <span></span></div>
+      <div id="tooDo" class="list">To do <span></span></div>
       <div id="doing" class="list">Doing <span></span></div>
       <div id="donete" class="list">Donete <span></span></div>
     </div>
     <button id="genereitor">Crear vida</button>
 
-    <!-- <div class='posit red'>
+    <!-- The DELETE popup -->
+    <div class="envoltorio-popup">
+      <div class="popup">
+        <div class="cerrar-popup">x</div>
+        <div class="contenido-popup">
+          <strong>Are you sure to DELETE this posit?</strong>
+          <hr>
+          <button id="yes">Yes</button>
+          <button id="no">No</button>
+        </div>
+      </div>
+    </div>
+    <!-- The posit that i have used to make the design of it to import it to javascript
+      <div class='posit red'>
       <button>X</button>
-      <button>»</button>
       <h2>Titulo</h2>
       <textarea name="" id="" cols="30" rows="10"></textarea>
     </div> -->

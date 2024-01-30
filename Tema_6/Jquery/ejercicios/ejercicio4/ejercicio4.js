@@ -1,9 +1,13 @@
 $(document).ready(function () {
+  // Variables that im going to use 
   let colorClass;
   let ntooDo = 0;
   let ndoing = 0;
   let ndonete = 0;
   let contId = 0;
+  const envoltorio = $(".envoltorio-popup");
+
+  // The button that generates the posits
   $("#genereitor").on("click", () => {
     let colorRand = Math.floor(Math.random() * (4 - 1) + 1);
     let xRand = Math.floor(Math.random() * (400 - 1) + 1);
@@ -18,35 +22,58 @@ $(document).ready(function () {
     }
 
     let postit = $(
-      `<div id='${contId}' class='posit ${colorClass}' style='left:${xRand}px; top:${yRand}px;'><button id="cerrar_posit_${contId}">X</button><button id="btnTA${contId}">»</button><h2>Post It</h2><textarea name="" id="" cols="30" rows="10"></textarea></div>`
+      `<div id='${contId}' class='posit ${colorClass}' style='left:${xRand}px; top:${yRand}px;'><button id="cerrar_posit_${contId}">X</button><h2>Post It</h2><textarea name="" id="" cols="30" rows="10"></textarea></div>`
     );
     $("#genereitor").after(postit);
     $("#cerrar_posit_" + contId).on("click", { contId: contId }, esconder);
-    $("btnTA" + contId).on("click", { contId: contId }, hideTA);
-
     postit.data("droped", false);
 
     console.log($(".posit").data("droped"));
-    // $(".posit").draggable();
-    // postit.resizable({
-    //   maxHeight: 250,
-    //   maxWidth: 350,
-    //   minHeight: 150,
-    //   minWidth: 200
-    // });
 
     postit.draggable();
     contId++;
+    // The function that deletes the posit
     function esconder(event) {
-      // console.log(event.data.contId);
-      console.log($("#" + event.data.contId));
-      // if ($("#" + event.data.contId).hasClass("red")) {}
-      $("#" + event.data.contId).remove();
-    }
-    function hideTA(event) {
-      $("#" + event.data.contId)
+      envoltorio[0].style.display = "block";
+      $("#yes").on("click", () => {
+        console.log("hola");
+        if (
+          $("#" +  event.data.contId).hasClass("red") &&
+          $("#" +  event.data.contId).data("droped") == true
+        ) {
+          ntooDo--;
+          $("#tooDo").find("span").text(ntooDo);
+        } else if (
+          $("#" + event.data.contId).hasClass("blue") &&
+          $("#" + event.data.contId).data("droped") == true
+        ) {
+          ndoing--;
+          $("#doing").find("span").text(ndoing);
+        } else if (
+          $("#" + event.data.contId).hasClass("green") &&
+          $("#" + event.data.contId).data("droped") == true
+        ) {
+          ndonete--;
+          $("#donete").find("span").text(ndonete);
+        }
+
+        envoltorio[0].style.display = "none";
+        $("#" + event.data.contId).remove();
+      });
+
+      $(".cerrar-popup").on("click", () => {
+        envoltorio[0].style.display = "none";
+      });
+      $(".cerrar-popup").on("click", () => {
+        envoltorio[0].style.display = "none";
+      });
+      $("#no").on("click", () => {
+        envoltorio[0].style.display = "none";
+      });
     }
   });
+
+  // The event listeners that listen when something its droped in each one of them
   $("#tooDo").droppable({
     accept: ".red",
     drop: function (event, e) {
@@ -106,6 +133,4 @@ $(document).ready(function () {
       $(this).find("span").text(ndonete);
     },
   });
-
-  // Que sean un posit
 });
