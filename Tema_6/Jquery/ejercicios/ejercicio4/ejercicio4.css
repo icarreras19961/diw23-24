@@ -34,8 +34,8 @@
   align-items: stretch;
   justify-content: end;
   flex-direction: row;
-  width: 50%;
-  height: 500px;
+  width: 70%;
+  height: 920px;
 }
 .list {
   margin: 10px;
@@ -60,6 +60,7 @@
   border-radius: 5px;
   background-color: rgb(81, 232, 232);
   border: 2px solid gray;
+  padding: 10px;
 }
 invisible {
   display: none;

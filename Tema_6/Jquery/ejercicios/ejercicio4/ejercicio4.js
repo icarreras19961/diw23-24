@@ -10,8 +10,8 @@ $(document).ready(function () {
   // The button that generates the posits
   $("#genereitor").on("click", () => {
     let colorRand = Math.floor(Math.random() * (4 - 1) + 1);
-    let xRand = Math.floor(Math.random() * (400 - 1) + 1);
-    let yRand = Math.floor(Math.random() * (400 - 1) + 1);
+    let xRand = Math.floor(Math.random() * (350 - 1) + 1);
+    let yRand = Math.floor(Math.random() * (350 - 1) + 1);
 
     if (colorRand == 1) {
       colorClass = "red";
