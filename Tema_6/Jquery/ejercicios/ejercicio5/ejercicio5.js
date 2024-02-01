@@ -16,7 +16,14 @@ Spotify.prototype.getArtist = function (artist) {
       Authorization: "Bearer " + access_token,
     },
   }).done(function (response) {
-    console.log(response);
+    console.log(response.artists);
+    let model;
+    for (let i = 0; i <= 19; i++) {
+      model = response.artists.items[i];
+      $("#results_artist").append(
+        `<div id="${model.id}"><h1>${model.name}</h1><h2>Popularity: ${model.popularity}</h2><img class="avatar" src=${model.images[1].url} alt=""></div><hr>`
+      );
+    }
   });
 };
 
@@ -53,10 +60,12 @@ $(function () {
   var spotify = new Spotify();
 
   $("#b_get_artist").on("click", function () {
+    $("#results_artist").html("");
     spotify.getArtist($("#artist_name").val());
   });
-
-  $("#results").on("click", ".artistId", function () {
+  
+  $(".avatar").on("click", ".artistId", function () {
+    console.log("hola");
     spotify.getArtistById($(this).attr("data-id"));
   });
 });

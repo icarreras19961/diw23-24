@@ -9,29 +9,33 @@
 </head>
 
 <body>
+  <header>
+    <img id="logo" src="/ejercicios/ejercicio5/img/Spotify_Logo_RGB_Green.png" alt="">
+  </header>
   <main>
-    <header>
-      <img id="logo" src="/ejercicios/ejercicio5/img/Spotify_Logo_RGB_Green.png" alt="">
-    </header>
-    <div>
-
+    <div id="artista">
       <h1>Search by artist:</h1>
       <input type="text" placeholder="Search artist" id="artist_name" />
-      <button id="b_get_artist">Info</button>
-      <div id="results">
+      <button id="b_get_artist">Search Artist</button>
+
+      <div id="results_artist">
+        <!-- <h1>Chayanne</h1>
+        <h2>Popularity: {numero}</h2>
+        <img class="avatar" src="img/mixi.jpg" alt="">
+        <hr>
+         -->
+      </div>
+
+    </div>
+
+    <div id="album">
+      <h1> Album of the selected artist:</h1>
+
+      <div id="results_album">
 
       </div>
     </div>
-    <!-- <div>
 
-      <h1>Search by album:</h1>
-      <input type="text" placeholder="Search album" id="artist_name" />
-      <button id="b_get_album">Info</button>
-      <div id="results">
-
-      </div>
-    </div>
-     -->
   </main>
 
   <script src="https://code.jquery.com/jquery-3.6.1.min.js"
