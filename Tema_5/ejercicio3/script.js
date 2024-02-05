@@ -14,6 +14,7 @@ let ejeY = document.getElementById("ejeY");
 let eje_X = document.getElementById("eje-X");
 let eje_Y = document.getElementById("eje-Y");
 
+
 function drawImage(x, y) {
   context.beginPath();
   context.drawImage(img, x, y, 150, 100);

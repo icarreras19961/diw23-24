@@ -11,7 +11,7 @@ function Spotify() {
 Spotify.prototype.getArtist = function (artist) {
   $.ajax({
     type: "GET",
-    url: this.apiUrl + "v1/search?type=artist&q=" + artist,
+    url: this.apiUrl + "v1/search?type=artist,track&q=" + artist,
     headers: {
       Authorization: "Bearer " + access_token,
     },
@@ -20,8 +20,14 @@ Spotify.prototype.getArtist = function (artist) {
     let model;
     for (let i = 0; i <= 19; i++) {
       model = response.artists.items[i];
+      let img;
+      if (model.images.length != 0) {
+        img = model.images[1].url;
+      } else {
+        img = "/ejercicios/ejercicio5/img/mixi.jpg";
+      }
       $("#results_artist").append(
-        `<div id="${model.id}"><h1>${model.name}</h1><h2>Popularity: ${model.popularity}</h2><img class="avatar" src=${model.images[1].url} alt=""></div><hr>`
+        `<div class="artistId" data-id="${model.id}"><h1>${model.name}</h1><h2>Popularity: ${model.popularity}</h2><img class="avatar" src=${img} alt=""></div><hr>`
       );
     }
   });
@@ -37,6 +43,25 @@ Spotify.prototype.getArtistById = function (artistId) {
     },
   }).done(function (response) {
     console.log(response);
+    let model;
+    for (let i = 0; i <= 19; i++) {
+      model = response.items[i];
+      let img;
+      if (model.images.length != 0) {
+        img = model.images[1].url;
+      } else {
+        img = "/ejercicios/ejercicio5/img/mixi.jpg";
+      }
+      model = response.items[i];
+      $("#results_album").append(
+        `<div class="artistId" data-id="${model.id}">
+        <h2>${model.name}</h2>
+        <p>Total tracks: ${model.total_tracks}</p>
+        <img src=${img} alt="">
+        <button id="showSongs">Show Songs</button>
+        </div><hr>`
+      );
+    }
   });
 };
 
@@ -59,13 +84,14 @@ $(function () {
 
   var spotify = new Spotify();
 
-  $("#b_get_artist").on("click", function () {
+  $("#artist_name").on("keyup", function () {
+    $("#results_album").html("");
     $("#results_artist").html("");
     spotify.getArtist($("#artist_name").val());
   });
-  
-  $(".avatar").on("click", ".artistId", function () {
-    console.log("hola");
+
+  $("#results_artist").on("click", ".artistId", function () {
+    $("#results_album").html("");
     spotify.getArtistById($(this).attr("data-id"));
   });
 });
