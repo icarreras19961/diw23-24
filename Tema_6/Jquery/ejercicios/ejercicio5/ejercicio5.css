@@ -3,15 +3,18 @@
   padding: 0;
   font-family: Arial, Helvetica, sans-serif;
 }
-
+h1{
+  text-align: center;
+}
 body {
   background-color: rgb(22, 22, 22);
   color: white;
 }
 main {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   margin: 20px;
 }
 /* header */
@@ -21,7 +24,7 @@ main {
 /* EL cuerpo */
 #artista {
   text-align: center;
-  width: 40%;
+  width: 90%;
   height: auto;
 }
 #results_artist {
@@ -30,6 +33,15 @@ main {
   color: black;
   border-radius: 20px;
   border: 2px solid gray;
+  padding: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+#album {
+  text-align: center;
+  width: 90%;
 }
 #results_album {
   margin-top: 20px;
@@ -37,10 +49,32 @@ main {
   color: black;
   border-radius: 20px;
   border: 2px solid gray;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
-#album {
-  text-align: center;
-  width: 40%;
+#song{
+  width: 90%;
+  
+}
+#results_songs {
+  margin-top: 20px;
+  background-color: aliceblue;
+  color: black;
+  border-radius: 20px;
+  border: 2px solid gray;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.track{
+  margin: 5px;
+}
+
+img {
+  width: 320px;border-radius: 10px;
+  margin: 5px;
 }
 button {
   padding: 7px;
@@ -56,23 +90,14 @@ input {
   border-radius: 50px;
   font-size: large;
 }
-
 /* Maqueta */
-#results_artist{
-  padding: 5px;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-}
-.avatar{
-  border-radius: 10px;
-  margin: 5px;
-
-}
 hr {
   margin: 5px;
   border-radius: 50px;
   border: 2px solid gray;
   text-align: center;
+}
+.artistId{
+  width: 330px;
+  margin: 5px;
 }

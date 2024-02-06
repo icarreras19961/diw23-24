@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sponguifai</title>
   <link rel="stylesheet" href="ejercicio5.css">
+  <link rel="icon" href="https://open.spotifycdn.com/cdn/images/favicon32.b64ecc03.png">
 </head>
 
 <body>
@@ -13,28 +14,29 @@
     <img id="logo" src="/ejercicios/ejercicio5/img/Spotify_Logo_RGB_Green.png" alt="">
   </header>
   <main>
+    <!-- Its where the user its going to do the search and will appear the results -->
     <div id="artista">
       <h1>Search by artist:</h1>
       <input type="text" placeholder="Search artist" id="artist_name" />
-      
+
       <div id="results_artist">
-        <!-- <h1>Chayanne</h1>
-        <h2>Popularity: {numero}</h2>
-        <img class="avatar" src="img/mixi.jpg" alt="">
-        <hr> -->
-          
+
       </div>
-
     </div>
-
+    <!-- When you click on an artist it will show the albums of that artist on this div -->
     <div id="album">
-      <h1> Album of the selected artist:</h1>
-
+      <h1>Album of the selected artist:</h1>
       <div id="results_album">
 
       </div>
     </div>
+<!-- Will show the songs that are in the album  -->
+    <div id="song">
+      <h1>The songs of the albums:</h1>
+      <div id="results_songs">
 
+      </div>
+    </div>
   </main>
 
   <script src="https://code.jquery.com/jquery-3.6.1.min.js"

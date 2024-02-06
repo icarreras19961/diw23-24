@@ -1,7 +1,8 @@
 var client_id = "cd351f180b6542998bc2c6e359c76b0a";
 var client_secret = "b7b1e82f11cd42608074f003fce63b36";
 var access_token = "11dFghVXANMlKmJXsNCbNl";
-
+$("#album").css("display", "none");
+$("#song").css("display", "none");
 //We create the Spotify class with the API to make the call to
 function Spotify() {
   this.apiUrl = "https://api.spotify.com/";
@@ -27,7 +28,7 @@ Spotify.prototype.getArtist = function (artist) {
         img = "/ejercicios/ejercicio5/img/mixi.jpg";
       }
       $("#results_artist").append(
-        `<div class="artistId" data-id="${model.id}"><h1>${model.name}</h1><h2>Popularity: ${model.popularity}</h2><img class="avatar" src=${img} alt=""></div><hr>`
+        `<div class="artistId" data-id="${model.id}"><h1>${model.name}</h1><h2>Popularity: ${model.popularity}</h2><img class="avatar" src=${img} alt=""></div>`
       );
     }
   });
@@ -53,13 +54,13 @@ Spotify.prototype.getArtistById = function (artistId) {
         img = "/ejercicios/ejercicio5/img/mixi.jpg";
       }
       model = response.items[i];
+      $("#results_artist").html("");
       $("#results_album").append(
-        `<div class="artistId" data-id="${model.id}">
+        `<div class="albumId" data-id="${model.id}">
         <h2>${model.name}</h2>
         <p>Total tracks: ${model.total_tracks}</p>
         <img src=${img} alt="">
-        <button id="showSongs">Show Songs</button>
-        </div><hr>`
+        <hr></div>`
       );
     }
   });
@@ -85,13 +86,57 @@ $(function () {
   var spotify = new Spotify();
 
   $("#artist_name").on("keyup", function () {
-    $("#results_album").html("");
+    $("#results_artist").css("display", "flex");
     $("#results_artist").html("");
+
+    $("#album").css("display", "none");
+    $("#song").css("display", "none");
+
     spotify.getArtist($("#artist_name").val());
   });
 
   $("#results_artist").on("click", ".artistId", function () {
-    $("#results_album").html("");
+    $("#results_artist").css("display", "none");
+    $("#album").css("display", "block");
     spotify.getArtistById($(this).attr("data-id"));
   });
+
+  // Songs
+  $("#results_album").on("click", ".albumId", function () {
+    $("#results_songs").html("");
+    $("#album").css("display", "none");
+
+    $("#song").css("display", "block");
+
+    console.log("hola");
+    spotify.getSongsById($(this).attr("data-id"));
+  });
+});
+
+//Search the albums of an tracks, given the id of the artist
+Spotify.prototype.getSongsById = function (albumId) {
+  $.ajax({
+    type: "GET",
+    url: this.apiUrl + "v1/albums/" + albumId + "/tracks",
+    headers: {
+      Authorization: "Bearer " + access_token,
+    },
+  }).done(function (response) {
+    console.log(response);
+    let model;
+    for (let i = 0; i <= 19; i++) {
+      model = response.items[i];
+      $("#results_album").html("");
+      $("#results_songs").append(
+        `<div class="track">
+        <h2>${model.name}</h2>
+        <span>Duration: ${(model.duration_ms / 1000 / 60).toFixed(2)} min</span>
+        <hr></div>`
+      );
+    }
+  });
+};
+// When you smash the logo the page reload 
+$("#logo").on("click", () => {
+  window.location.reload();
 });
