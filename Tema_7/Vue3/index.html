@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+
+<body>
+  <div id="app">{{ message }}
+    <!-- es como un if con la propiedad show -->
+    <h1 v-if="show">{{patatita}}</h1>
+    <h1 v-else="show">Francisco</h1>
+
+    <h1 v-if="num > 5">es mayor que 5</h1>
+    <h1 v-else>Francisco</h1>
+
+    <img v-bind:src="img" alt="">
+
+    <ul v-if="items.length">
+      <li v-for="(item,index) in items" v-bind:key="index">{{item}}  {{index}}</li>
+    </ul>
+
+    <button v-on:click="sayHello">Press</button>
+
+    <form>
+      <input v-model="form.name" type="text" name="name">
+      <input v-model="form.email" type="email" name="email">
+    </form>
+
+    <div>{{form.name}}</div>
+    <!-- La clase hace que detecte las etiquetas html dentro del mensage -->
+    <p v-html="messagehtml"></p>
+
+  </div>
+
+  <script>
+    const { createApp } = Vue;
+
+    let app = createApp({
+      // El data seria como los elementos que meteras en el html
+      data() {
+        return {
+          form: {
+            name: "",
+            email: ""
+          },
+          message: "Hello vue!",
+          messagehtml: "<span>Hola</span>",
+          hola: { a: "a", b: "b" },
+          patatita: "No me gustan las patatas",
+          show: true,
+          num: 4,
+          img: "alfredo.png",
+          items: [1, 2, 3, 4]
+        }
+      },
+      // Son metodos xd espabila
+      methods: {
+        sayHello: function (e) {
+          this.num += 1;
+          console.log(this.num + 1);
+          return;
+
+        }
+      },
+      // Es eso de que la ultima instancia del metodo cambia todas las anteriores
+      computed: {
+
+      }
+    }).mount('#app');
+  </script>
+</body>
+
+</html>
