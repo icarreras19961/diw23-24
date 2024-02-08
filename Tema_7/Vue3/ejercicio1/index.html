@@ -13,17 +13,32 @@
 
     <h1>{{lista}}</h1>
 
+    <ul v-if="posts.length">
+      <li v-for="(post,index) in posts" v-bind:key="index">
+        Title: {{post.title}}
+        Content: {{post.content}}
+
+        <button v-on:click="edit(post)">Edit</button>
+        <button @click="velete(index)">Delete</button>
+
+      </li>
+    </ul>
+
     <h1>{{titulo_creacion}}</h1>
 
     <form>
       <input v-model="form.title" type="text" name="title" placeholder="Title">
-      <input v-model="form.content" type="text" name="content" placeholder="content">
+      <input v-model="form.content" type="text" name="content" placeholder="content"><br>
+      <p>Title: {{form.title}}</p>
+      <p>Content: {{form.content}}</p>
+
+      <button v-on:click="insert">Inserta User</button>
     </form>
 
   </div>
   <script>
     const { createApp } = Vue
-  
+
     let app = createApp({
       data() {
         return {
@@ -33,10 +48,29 @@
           },
           lista: "Lista de blogs",
           titulo_creacion: "Crear blog",
-  
+          posts: [],
         }
-      }
-    })
+      },
+      // Methods
+      methods: {
+        insert: function (e) {
+          e.preventDefault();
+          let post = {
+            title: this.form.title,
+            content: this.form.content,
+          }
+          this.posts.push(post);
+
+          return;
+        },
+        edit(post) {
+
+        },
+        velete(index){
+        this.posts.splice(index, 1);
+        }
+      },
+    }).mount('#app');
   </script>
 </body>
 
