@@ -5,12 +5,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <link rel="stylesheet" href="style.css">
   <title>Post</title>
 </head>
 
 <body>
   <div id="app">
-
     <h1>{{lista}}</h1>
 
     <ul v-if="posts.length">
@@ -18,23 +18,25 @@
         Title: {{post.title}}
         Content: {{post.content}}
 
-        <button v-on:click="edit(post)">Edit</button>
+        <button v-on:click="showEdit(index)">Edit</button>
         <button @click="velete(index)">Delete</button>
 
       </li>
     </ul>
 
-    <h1>{{titulo_creacion}}</h1>
+    <h1 v-if="editando==false">{{titulo_creacion}}</h1>
+    <h1 v-else>{{titulo_Upgreacion}}</h1>
 
-    <form>
-      <input v-model="form.title" type="text" name="title" placeholder="Title">
-      <input v-model="form.content" type="text" name="content" placeholder="content"><br>
+
+    <form id="formulario">
+      <input v-model="form.title" type="text" name="title" placeholder="Title"><br>
+      <textarea v-model="form.content" type="text" name="content" placeholder="content"></textarea><br>
       <p>Title: {{form.title}}</p>
       <p>Content: {{form.content}}</p>
 
-      <button v-on:click="insert">Inserta User</button>
+      <button v-if="editando == false" v-on:click="insert">Inserta User</button>
+      <button v-else @click="edit">Update</button>
     </form>
-
   </div>
   <script>
     const { createApp } = Vue
@@ -43,12 +45,22 @@
       data() {
         return {
           form: {
+            img: "",
             title: "",
-            content: ""
+            status: "Draft",
+            rating: "",
+            author: "",
+            content: "",
+            creation_date: "",
+            publication_date: null,
+
           },
           lista: "Lista de blogs",
           titulo_creacion: "Crear blog",
+          titulo_Upgreacion: "Actualizar blog",
           posts: [],
+          position: 0,
+          editando: false
         }
       },
       // Methods
@@ -60,14 +72,29 @@
             content: this.form.content,
           }
           this.posts.push(post);
-
+          this.form.title = "";
+          this.form.content = "";
           return;
         },
-        edit(post) {
+        showEdit(position) {
+          this.editando = true;
+          this.position = position;
+          this.form.title = this.posts[position].title;
+          this.form.content = this.posts[position].content;
 
         },
-        velete(index){
-        this.posts.splice(index, 1);
+        edit(e) {
+          e.preventDefault();
+          this.posts[this.position] = {
+            title: this.form.title,
+            content: this.form.content,
+          }
+          this.form.title = "";
+          this.form.content = "";
+          this.editando = false;
+        },
+        velete(index) {
+          this.posts.splice(index, 1);
         }
       },
     }).mount('#app');
