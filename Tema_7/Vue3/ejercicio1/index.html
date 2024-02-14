@@ -17,6 +17,7 @@
       <li v-for="(post,index) in posts" v-bind:key="index">
         Title: {{post.title}}
         Content: {{post.content}}
+        Date: {{post.creation_date}}
 
         <button v-on:click="showEdit(index)">Edit</button>
         <button @click="velete(index)">Delete</button>
@@ -29,14 +30,46 @@
 
 
     <form id="formulario">
-      <input v-model="form.title" type="text" name="title" placeholder="Title"><br>
-      <textarea v-model="form.content" type="text" name="content" placeholder="content"></textarea><br>
-      <p>Title: {{form.title}}</p>
-      <p>Content: {{form.content}}</p>
+      <div v-if="editando==false">
+        <!-- Title -->
+        <input v-model="form.title" type="text" name="title" placeholder="Title"><br>
+        <!-- Content -->
+        <textarea v-model="form.content" type="text" name="content" placeholder="content"></textarea><br>
+        <!-- Date -->
+        <input v-model="form.creation_date" type="date" name="date" placeholder="Date"><br>
+        <p>Title: {{form.title}}</p>
+        <p>Content: {{form.content}}</p>
 
-      <button v-if="editando == false" v-on:click="insert">Inserta User</button>
-      <button v-else @click="edit">Update</button>
+        <button v-on:click=" insert">Inserta User</button>
+      </div>
+      <div v-else>
+        <!-- Title -->
+        <input v-model="form.title" type="text" name="title" placeholder="Title"><br>
+        <!-- Content -->
+        <textarea v-model="form.content" type="text" name="content" placeholder="content"></textarea><br>
+        <!-- Author -->
+        <input v-model="form.author" type="text" name="author" placeholder="Author"><br>
+        <!-- Img -->
+        <!-- <input v-model="form.img" type="file" name="img" placeholder="Image"><br> -->
+        <!-- Publication date -->
+        <input v-model="form.publication_date" type="date" name="publication_date" placeholder="Publication Date"><br>
+
+        <!-- Rating -->
+        <select name="rating" v-model="form.rating">
+          <option value="5">5</option>
+          <option value="4">4</option>
+          <option value="3">3</option>
+          <option value="2">2</option>
+          <option value="1">1</option>
+        </select>
+
+        <p>Title: {{form.title}}</p>
+        <p>Content: {{form.content}}</p>
+        <button @click="edit">Update</button>
+      </div>
+
     </form>
+
   </div>
   <script>
     const { createApp } = Vue
@@ -55,9 +88,9 @@
             publication_date: null,
 
           },
-          lista: "Lista de blogs",
-          titulo_creacion: "Crear blog",
-          titulo_Upgreacion: "Actualizar blog",
+          lista: "Lista de posts",
+          titulo_creacion: "Crear post",
+          titulo_Upgreacion: "Actualizar post",
           posts: [],
           position: 0,
           editando: false
@@ -67,13 +100,17 @@
       methods: {
         insert: function (e) {
           e.preventDefault();
+          
           let post = {
             title: this.form.title,
             content: this.form.content,
+            creation_date: this.form.creation_date,
           }
           this.posts.push(post);
           this.form.title = "";
           this.form.content = "";
+          this.form.creation_date = "";
+
           return;
         },
         showEdit(position) {
@@ -88,9 +125,16 @@
           this.posts[this.position] = {
             title: this.form.title,
             content: this.form.content,
+            // img: this.form.img,
+            rating: this.form.rating,
+            author: this.form.author,
+            publication_date: this.form.publication_date,
           }
           this.form.title = "";
           this.form.content = "";
+          this.form.rating = "";
+          this.form.author = "";
+          this.form.publication_date = "";
           this.editando = false;
         },
         velete(index) {

@@ -1,0 +1,45 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+html{
+  height: 100%;
+}
+img {
+  border-radius: 20px;
+  width: 150px;
+  margin: 5px;
+}
+.peruano {
+  position: absolute;
+  border-radius: 5px;
+  width: 170px;
+  height: 180px;
+  background-color: aliceblue;
+}
+.argentino{
+  position: absolute;
+  border-radius: 5px;
+  width: 170px;
+  height: 180px;
+  background-color: aliceblue;
+}
+#peru {
+  background-color: rgb(149, 255, 255);
+}
+
+
+.pais {
+  float: right;
+  display: flex;
+  align-items: stretch;
+  justify-content: end;
+  flex-direction: row;
+  width: 70%;
+  height: 910px;
+  margin: 10px;
+  width: 500px;
+  border-radius: 5px;
+  border: 1px solid black;
+  padding: 5px;
+}

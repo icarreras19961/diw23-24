@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  // Variables that im going to use 
+  // Variables that im going to use
   let colorClass;
   let ntooDo = 0;
   let ndoing = 0;
@@ -38,8 +38,8 @@ $(document).ready(function () {
       $("#yes").on("click", () => {
         console.log("hola");
         if (
-          $("#" +  event.data.contId).hasClass("red") &&
-          $("#" +  event.data.contId).data("droped") == true
+          $("#" + event.data.contId).hasClass("red") &&
+          $("#" + event.data.contId).data("droped") == true
         ) {
           ntooDo--;
           $("#tooDo").find("span").text(ntooDo);
