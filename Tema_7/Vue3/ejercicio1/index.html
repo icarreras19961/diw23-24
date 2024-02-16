@@ -26,7 +26,7 @@
         <!-- The date its instantly aplied -->
         <p>Title: {{form.title}}</p>
         <p>Content: {{form.content}}</p>
-        <button v-on:click=" insert">Inserta User</button>
+        <button v-on:click=" insert">Inserta post</button>
       </div>
       <div v-else>
         <!-- EL div en caso de actualizar el contenido de los posts -->
@@ -37,7 +37,8 @@
         <!-- Author -->
         <input v-model="form.author" type="text" name="author" placeholder="Author"><br>
         <!-- Img -->
-        <!-- <input v-model="form.img" type="file" name="img" placeholder="Image"><br> -->
+
+        <input @change="updatePhoto($event.target.files)" type="file" name="img" placeholder="Image"><br>
         <!-- Publication date -->
         <input v-model="form.publication_date" type="date" name="publication_date" placeholder="Publication Date"><br>
 
@@ -63,25 +64,34 @@
     <!-- La lista de posts -->
     <ul v-if="posts.length" id="contenedor">
       <li v-for="(post,index) in posts" v-bind:key="index">
-        Title: {{post.title}}/
-        Content: {{post.content}}/
-        Date: {{post.creation_date}}
-
-        <button v-on:click="showEdit(index)">Edit</button>
-        <button @click="velete(index)">Delete</button>
+        <h1>
+          Title: {{post.title}}
+        </h1>
+        <h6>
+          Date: {{post.creation_date}}
+        </h6>
+        <img src="/Vue3/ejercicio1/img/{{post.img}}" alt="">
+        <span class="texto">
+          {{post.content}}
+        </span>
+        <p>
+          
+          <button v-on:click="showEdit(index)">Edit</button>
+          <button @click="velete(index)">Delete</button>
+        </p>
       </li>
     </ul>
 
   </div>
   <script>
     const { createApp } = Vue
-
+    
     let app = createApp({
       data() {
         return {
           // Variables
           form: {
-            img: "",
+            img: null,
             title: "",
             status: "Draft",
             topics: "",
@@ -115,7 +125,7 @@
           this.form.title = "";
           this.form.content = "";
           this.form.creation_date = "";
-
+          
           return;
         },
         // Cambia los parametros de insertar post a actualizar los datos del post
@@ -124,7 +134,7 @@
           this.position = position;
           this.form.title = this.posts[position].title;
           this.form.content = this.posts[position].content;
-
+          
         },
         // Edita el post como tal
         edit(e) {
@@ -132,7 +142,7 @@
           this.posts[this.position] = {
             title: this.form.title,
             content: this.form.content,
-            // img: this.form.img,
+            img: this.form.img,
             topics: this.form.topics,
             author: this.form.author,
             publication_date: this.form.publication_date,
@@ -143,12 +153,21 @@
           this.form.author = "";
           this.form.publication_date = "";
           this.editando = false;
+          
         },
         // Eliminar post (Esta con v porque me hizo gracia ya que escribir delete me salia como palabra reservada)
         velete(index) {
           this.posts.splice(index, 1);
+        },
+        updatePhoto(files) {
+          if (!files.length) return;
+          // Store the file data
+          this.form.img = {
+            name: files[0].name,
+            data: files[0]
+          }
         }
-      },
+      }
     }).mount('#app');
   </script>
 </body>

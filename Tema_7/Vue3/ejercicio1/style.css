@@ -12,7 +12,7 @@ body {
   min-height: 100vh;
   background-image: linear-gradient(white, #009ddc);
 }
-h1{
+h1 {
   text-align: center;
 }
 /* El estilo del form*/
@@ -26,10 +26,18 @@ ul {
 }
 li {
   margin: 5px;
+  background-color: rgb(169, 211, 248);
+  border-radius: 5px;
+  padding: 5px;
 }
 /* El contenedor donde iran los posts */
 #contenedor {
   background-color: aliceblue;
   border-radius: 5px;
   padding: 10px;
+}
+.texto {
+  border: 1px solid grey;
+  border-radius: 5px;
+  background-color: aliceblue;
 }
