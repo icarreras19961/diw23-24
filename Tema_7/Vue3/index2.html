@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <title>Numbers</title>
+</head>
+
+<body>
+
+  <div id="app">
+    <h3>Enter an integer</h3>
+    <input v-model="num" type="number">
+    <input type="button" value="Send" @click="send()">
+
+    <p v-if="error">
+      <small>{{error}}</small>
+    </p>
+    <!-- <number nombre=""></number> -->
+    <Number v-for="n in list" :nombre="n" @clicked-number="numberSelected"></Number>
+    <p v-if="selectedItem">
+      <small>The number its {{selectedItem}}</small>
+    </p>
+  </div>
+
+  <script type="module">
+    import Number from './Number.js';
+
+    const { createApp } = Vue;
+    const app = createApp({
+      data: function () {
+        return {
+          list: [],
+          num: null,
+          error: "",
+          selectedItem: null
+        }
+      },
+      components: {
+        Number
+      },
+      methods: {
+        send: function () {
+          this.error = "";
+          // Esto comprueba que es un numero y si tiene una coma o no
+          if (~~this.num === this.num) {
+            // Comproba si existe este numero en el array
+            if (this.list.indexOf(this.num) < 0) {
+              this.list.push(this.num);
+            } else {
+              this.error = "You can't repeat the number ";
+
+            }
+          } else {
+            this.error = "You need to enter a correct value"
+          }
+          this.num = "";
+        },
+
+      },
+    }).mount('#app');
+
+
+  </script>
+
+  <style>
+    #app {
+      text-align: center;
+    }
+
+    small {
+      color: red;
+    }
+  </style>
+</body>
+
+</html>
