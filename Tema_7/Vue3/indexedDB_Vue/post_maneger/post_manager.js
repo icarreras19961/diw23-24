@@ -1,5 +1,5 @@
-// import post_header from "./components/post_header.js";
-// import post_footer from "./components/post_footer.js";
+import post_header from "./components/post_header.js";
+import post_footer from "./components/post_footer.js";
 import post from "./components/post.js";
 const { createApp } = Vue;
 
@@ -27,9 +27,10 @@ let app = createApp({
   },
   // Components
   components: {
-    //  post_header,
-    //   post_footer,
-       post },
+    post_header,
+    post_footer,
+    post,
+  },
   // Methods
   methods: {
     // Insertar post

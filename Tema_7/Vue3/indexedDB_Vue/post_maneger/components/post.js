@@ -1,8 +1,17 @@
 export default {
   name: "post",
-  props: ["post"],
-  template: `<div>
-  <h1>
+  props: ["post", "index"],
+  methods: {
+    showEdit: function (index) {
+      this.$emit("showEdit", index);
+    },
+    velete: function (index) {
+      this.$emit("velete", index);
+    }
+  },
+  template: `
+  <div id="post_body">
+  <h1 id="post_title">
     Title: {{post.title}}
   </h1>
   <h6>
@@ -13,9 +22,9 @@ export default {
     {{post.content}}
   </span>
   <p>
-
-    <button v-on:click="showEdit(index)">Edit</button>
-    <button @click="velete(index)">Delete</button>
+    <button class="btn gris p-1"  v-on:click="showEdit(index)">Edit</button>
+    <button class="btn gris p-1"  @click="velete(index)">Delete</button>
   </p>
-</div>`,
+</div>
+`,
 };

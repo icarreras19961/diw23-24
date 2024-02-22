@@ -3,6 +3,7 @@ export default {
   props: ["nombre"],
   methods: {
     clickNumber: function (item) {
+      console.log(item);
       this.$emit("clicked-number", item);
     },
   },

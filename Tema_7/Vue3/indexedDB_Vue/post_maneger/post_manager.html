@@ -10,84 +10,88 @@
   <title>Posts</title>
   <link rel="stylesheet" href="../style.css">
   <link rel="stylesheet" href="../perfil/style.css">
+  <link rel="stylesheet" href="post_manager.css">
+  <!-- <script src="../perfil/script.js"></script> -->
 
 </head>
 
-<body id="app">
-  <!-- Cabezera -->
-  <!-- Funciona si le das a ctr+f5 seguidamente de f5 -->
+<body>
+  <div id="app" class=" min-vh-100">
+    <!-- Cabezera -->
+    <!-- Funciona si le das a ctr+f5 seguidamente de f5 -->
 
-  <!-- <post_header></post_header> -->
+    <post_header></post_header>
 
-  <main class="container m-2 mx-auto p-3 border-1" id="cuerpo">
+    <main class="container m-2 mx-auto p-3 border-1" id="cuerpo">
 
-    <!-- Titulos -->
-    <h1 v-if="editando==false">{{titulo_creacion}}</h1>
-    <h1 v-else>{{titulo_Upgreacion}}</h1>
+      <!-- Titulos -->
+      <h1 v-if="editando==false">{{titulo_creacion}}</h1>
+      <h1 v-else>{{titulo_Upgreacion}}</h1>
+      <hr>
+      <!-- El formulario -->
+      <form id="formulario">
+        <div v-if="editando==false">
+          <!-- El contenido para insertar un post -->
+          <!-- Title -->
+          <input v-model="form.title" type="text" name="title" placeholder="Title"><br>
+          <!-- Content -->
+          <textarea v-model="form.content" type="text" name="content" placeholder="content"></textarea><br>
+          <!-- The date its instantly aplied -->
+          <p>Title: {{form.title}}</p>
+          <p>Content: {{form.content}}</p>
+          <button class="btn gris p-1" v-on:click=" insert">Inserta post</button>
+        </div>
+        <div v-else>
+          <!-- EL div en caso de actualizar el contenido de los posts -->
+          <!-- Title -->
+          <input v-model="form.title" type="text" name="title" placeholder="Title"><br>
+          <!-- Content -->
+          <textarea v-model="form.content" type="text" name="content" placeholder="content"></textarea><br>
+          <!-- Author -->
+          <input v-model="form.author" type="text" name="author" placeholder="Author"><br>
+          <!-- Img -->
 
-    <!-- El formulario -->
-    <form id="formulario">
-      <div v-if="editando==false">
-        <!-- El contenido para insertar un post -->
-        <!-- Title -->
-        <input v-model="form.title" type="text" name="title" placeholder="Title"><br>
-        <!-- Content -->
-        <textarea v-model="form.content" type="text" name="content" placeholder="content"></textarea><br>
-        <!-- The date its instantly aplied -->
-        <p>Title: {{form.title}}</p>
-        <p>Content: {{form.content}}</p>
-        <button v-on:click=" insert">Inserta post</button>
-      </div>
-      <div v-else>
-        <!-- EL div en caso de actualizar el contenido de los posts -->
-        <!-- Title -->
-        <input v-model="form.title" type="text" name="title" placeholder="Title"><br>
-        <!-- Content -->
-        <textarea v-model="form.content" type="text" name="content" placeholder="content"></textarea><br>
-        <!-- Author -->
-        <input v-model="form.author" type="text" name="author" placeholder="Author"><br>
-        <!-- Img -->
+          <input @change="updatePhoto($event.target.files)" type="file" name="img" placeholder="Image"><br>
+          <!-- Publication date -->
+          <input v-model="form.publication_date" type="date" name="publication_date" placeholder="Publication Date"><br>
 
-        <input @change="updatePhoto($event.target.files)" type="file" name="img" placeholder="Image"><br>
-        <!-- Publication date -->
-        <input v-model="form.publication_date" type="date" name="publication_date" placeholder="Publication Date"><br>
+          <!-- topics -->
+          Topics: <select name="topics" v-model="form.topics">
+            <option value="Amarres">Amarres</option>
+            <option value="Nudos">Nudos</option>
+            <option value="Navegacion">Navegacion</option>
+            <option value="RIPA">RIPA</option>
+            <option value="Veleros">Veleros</option>
+            <option value="Barco a motor">Barco a motor</option>
+          </select>
 
-        <!-- topics -->
-        Topics: <select name="topics" v-model="form.topics">
-          <option value="Amarres">Amarres</option>
-          <option value="Nudos">Nudos</option>
-          <option value="Navegacion">Navegacion</option>
-          <option value="RIPA">RIPA</option>
-          <option value="Veleros">Veleros</option>
-          <option value="Barco a motor">Barco a motor</option>
-        </select>
+          <p>Title: {{form.title}}</p>
+          <p>Content: {{form.content}}</p>
 
-        <p>Title: {{form.title}}</p>
-        <p>Content: {{form.content}}</p>
+          <button class="btn gris p-1" @click="edit">Update</button>
+        </div>
 
-        <button @click="edit">Update</button>
-      </div>
+      </form>
+      <hr>
+      <h1>{{lista}}</h1>
+      <br>
+      <!-- La lista de posts -->
+      <ul v-if="posts.length" id="contenedor">
+        <post v-for="(post,index) in posts" v-bind:key="index" :post="post" :index="index" @show-edit="showEdit(index)"
+          @velete="velete(index)">
+        </post>
+      </ul>
 
-    </form>
-    <h1>{{lista}}</h1>
-    <br>
-    <!-- La lista de posts -->
-    <ul v-if="posts.length" id="contenedor">
-      <li v-for="(post,index) in posts" v-bind:key="index" :post="post" :index="index">
-        <post></post>
-      </li>
-    </ul>
+    </main>
+    <!-- Pie de pagina -->
+    <post_footer></post_footer>
 
-  </main>
-  <!-- Pie de pagina -->
-  <!-- <post_footer></post_footer> -->
-
+  </div>
 
   <script type="module" src="post_manager.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
-  <script src="../perfil/script.js"></script>
 </body>
 
 </html>
