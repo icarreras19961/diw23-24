@@ -42,10 +42,13 @@ let app = createApp({
         title: this.form.title,
         content: this.form.content,
         creation_date: date,
+        author: this.form.author,
       };
       this.posts.push(post);
+      localStorage.setItem("posts", JSON.stringify(this.posts));
       this.form.title = "";
       this.form.content = "";
+      this.form.author = "";
       this.form.creation_date = "";
 
       return;
@@ -78,6 +81,7 @@ let app = createApp({
     // Eliminar post (Esta con v porque me hizo gracia ya que escribir delete me salia como palabra reservada)
     velete(index) {
       this.posts.splice(index, 1);
+      localStorage.setItem("posts", JSON.stringify(this.posts));
     },
     updatePhoto(files) {
       if (!files.length) return;
@@ -87,5 +91,14 @@ let app = createApp({
         data: files[0],
       };
     },
+  },
+  mounted() {
+    if (JSON.parse(localStorage.getItem("posts") === null)) {
+      localStorage.setItem("posts", JSON.stringify(this.posts));
+    } else if (JSON.parse(localStorage.getItem("posts").length != 0)) {
+      this.posts = JSON.parse(localStorage.getItem("posts"));
+    } else {
+      console.log("No posts");
+    }
   },
 }).mount("#app");

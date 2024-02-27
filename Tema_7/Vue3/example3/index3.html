@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejemplo</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/vue-router@4.0.15/dist/vue-router.global.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <h3>Title</h3>
+    <router-link to="/">Go Home</router-link>
+    <router-link to="./hello?message=World">hello + param</router-link>
+    <router-link to="/hello/World">hello2</router-link>
+
+    <router-view @eduirado="eduirado()"></router-view>
+  </div>
+
+  <script>
+    import router from "router.js";
+    const { createApp } = Vue;
+
+    let app = createApp({
+      data: function () {},
+      methods:{
+        eduirado:function(){
+          console.log("hola eduiadro");
+        }
+      }
+
+    }).use(router).mount('#app');
+  </script>
+</body>
+
+</html>

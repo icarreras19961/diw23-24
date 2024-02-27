@@ -7,7 +7,7 @@ export default {
     },
     velete: function (index) {
       this.$emit("velete", index);
-    }
+    },
   },
   template: `
   <div id="post_body">
@@ -21,6 +21,10 @@ export default {
   <span class="texto">
     {{post.content}}
   </span>
+  <h6>
+    Author: {{post.author}}
+  </h6> 
+
   <p>
     <button class="btn gris p-1"  v-on:click="showEdit(index)">Edit</button>
     <button class="btn gris p-1"  @click="velete(index)">Delete</button>
