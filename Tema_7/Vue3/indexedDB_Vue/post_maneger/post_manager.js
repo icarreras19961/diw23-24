@@ -1,28 +1,16 @@
 import post_header from "./components/post_header.js";
 import post_footer from "./components/post_footer.js";
 import post from "./components/post.js";
+import formulario from "./components/formulario.js";
 const { createApp } = Vue;
 
 let app = createApp({
   data() {
     return {
       // Variables
-      form: {
-        img: null,
-        title: "",
-        status: "Draft",
-        topics: "",
-        author: "",
-        content: "",
-        creation_date: "",
-        publication_date: null,
-      },
       lista: "Lista de posts",
-      titulo_creacion: "Crear post",
-      titulo_Upgreacion: "Actualizar post",
       posts: [],
       position: 0,
-      editando: false,
     };
   },
   // Components
@@ -30,29 +18,10 @@ let app = createApp({
     post_header,
     post_footer,
     post,
+    formulario,
   },
   // Methods
   methods: {
-    // Insertar post
-    insert: function (e) {
-      e.preventDefault();
-      // Esto ne devuelve solo el dd/mm/yyyy de la fecha
-      let date = new Date().toLocaleDateString("en-GB");
-      let post = {
-        title: this.form.title,
-        content: this.form.content,
-        creation_date: date,
-        author: this.form.author,
-      };
-      this.posts.push(post);
-      localStorage.setItem("posts", JSON.stringify(this.posts));
-      this.form.title = "";
-      this.form.content = "";
-      this.form.author = "";
-      this.form.creation_date = "";
-
-      return;
-    },
     // Cambia los parametros de insertar post a actualizar los datos del post
     showEdit(position) {
       this.editando = true;
