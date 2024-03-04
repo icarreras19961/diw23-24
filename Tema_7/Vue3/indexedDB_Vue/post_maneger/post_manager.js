@@ -1,16 +1,20 @@
 import post_header from "./components/post_header.js";
 import post_footer from "./components/post_footer.js";
 import post from "./components/post.js";
+import all_posts from "./components/all_posts.js";
 import formulario from "./components/formulario.js";
+import router from "./router.js";
 const { createApp } = Vue;
 
 let app = createApp({
   data() {
     return {
       // Variables
+      editando: false,
       lista: "Lista de posts",
       posts: [],
       position: 0,
+      editing_post: null,
     };
   },
   // Components
@@ -19,33 +23,41 @@ let app = createApp({
     post_footer,
     post,
     formulario,
+    all_posts,
+  },
+  computed: {
+    // la variable se actualiza sola en el componente en el que estoy
+    form() {
+      return this.$refs.post_insert;
+    },
   },
   // Methods
+  
   methods: {
+    postSend(envia) {
+      console.log(envia);
+      this.posts = envia;
+      console.log(this.posts);
+    },
     // Cambia los parametros de insertar post a actualizar los datos del post
     showEdit(position) {
-      this.editando = true;
+      console.log(position);
+      console.log(this.position);
       this.position = position;
-      this.form.title = this.posts[position].title;
-      this.form.content = this.posts[position].content;
+      this.editing_post = this.posts[this.position];
     },
     // Edita el post como tal
-    edit(e) {
-      e.preventDefault();
+    edit(new_post) {
       this.posts[this.position] = {
-        title: this.form.title,
-        content: this.form.content,
-        img: this.form.img,
-        topics: this.form.topics,
-        author: this.form.author,
-        publication_date: this.form.publication_date,
+        title: new_post.title,
+        content: new_post.content,
+        img: new_post.img,
+        topics: new_post.topics,
+        author: new_post.author,
+        publication_date: new_post.publication_date,
       };
-      this.form.title = "";
-      this.form.content = "";
-      this.form.topics = "";
-      this.form.author = "";
-      this.form.publication_date = "";
-      this.editando = false;
+      localStorage.setItem("posts", JSON.stringify(this.posts));
+      this.editing_post = null;
     },
     // Eliminar post (Esta con v porque me hizo gracia ya que escribir delete me salia como palabra reservada)
     velete(index) {
@@ -62,12 +74,18 @@ let app = createApp({
     },
   },
   mounted() {
+
     if (JSON.parse(localStorage.getItem("posts") === null)) {
-      localStorage.setItem("posts", JSON.stringify(this.posts));
+      this.posts = [];
+      // localStorage.setItem("posts", JSON.stringify(this.posts));
     } else if (JSON.parse(localStorage.getItem("posts").length != 0)) {
       this.posts = JSON.parse(localStorage.getItem("posts"));
     } else {
       console.log("No posts");
+      this.posts = [];
     }
+    this.$router.push("/");
   },
-}).mount("#app");
+})
+  app.use(router)
+  app.mount("#app");
