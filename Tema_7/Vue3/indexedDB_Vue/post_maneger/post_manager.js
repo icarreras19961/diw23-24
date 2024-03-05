@@ -32,22 +32,27 @@ let app = createApp({
     },
   },
   // Methods
-  
+
   methods: {
     postSend(envia) {
-      console.log(envia);
+      // console.log(envia);
       this.posts = envia;
-      console.log(this.posts);
+      this.$router.push("/");
+      // console.log(this.posts);
     },
     // Cambia los parametros de insertar post a actualizar los datos del post
     showEdit(position) {
-      console.log(position);
-      console.log(this.position);
+      console.log("hola");
+      // console.log(position);
+      // console.log(this.position);
+      // this.editando = true;
       this.position = position;
       this.editing_post = this.posts[this.position];
+      // console.log(this.editando);
     },
     // Edita el post como tal
     edit(new_post) {
+      this.position = this.$route.params.id;
       this.posts[this.position] = {
         title: new_post.title,
         content: new_post.content,
@@ -56,8 +61,10 @@ let app = createApp({
         author: new_post.author,
         publication_date: new_post.publication_date,
       };
+
       localStorage.setItem("posts", JSON.stringify(this.posts));
       this.editing_post = null;
+      this.$router.push("/");
     },
     // Eliminar post (Esta con v porque me hizo gracia ya que escribir delete me salia como palabra reservada)
     velete(index) {
@@ -74,7 +81,6 @@ let app = createApp({
     },
   },
   mounted() {
-
     if (JSON.parse(localStorage.getItem("posts") === null)) {
       this.posts = [];
       // localStorage.setItem("posts", JSON.stringify(this.posts));
@@ -86,6 +92,6 @@ let app = createApp({
     }
     this.$router.push("/");
   },
-})
-  app.use(router)
-  app.mount("#app");
+});
+app.use(router);
+app.mount("#app");

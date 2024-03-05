@@ -32,7 +32,14 @@
         <router-link to="/formulario">Nuevo Post</router-link> -->
 
         <!--  TODO Faltara coger los emits de formulario con el @ y llamar al metofo que haga falta -->
-        <router-view v-bind:posts="posts"></router-view>
+        <router-view
+          v-bind:posts="posts"
+          @post-send="postSend"
+          @update_post="edit"
+          @show-edit="showEdit"
+          @velete="velete"
+          v-bind:editando="editando"
+        ></router-view>
         <!-- A partir de aqui funciona -->
         <!-- <formulario @post-send="postSend" :editando="editando" :post="editing_post" @update_post="edit"></formulario>
 
@@ -40,7 +47,7 @@
         <h1>{{lista}}</h1>
         <br /> -->
         <!-- La lista de posts -->
-         <!-- <ul v-if="posts.length" id="contenedor">
+        <!-- <ul v-if="posts.length" id="contenedor">
           <post
             v-for="(post,index) in posts"
             v-bind:key="index"

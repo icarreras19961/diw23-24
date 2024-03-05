@@ -1,6 +1,6 @@
 import post from "./post.js";
 export default {
-  name: "all_posts", 
+  name: "all_posts",
   props: ["posts"],
   // data() {
   //   return {
@@ -15,7 +15,10 @@ export default {
       this.$router.push("/formulario");
     },
     showEdit(index) {
-      this.$router.push("/formulario/"+index);
+      this.$router.push("/formulario/" + index + true);
+    },
+    velete(index) {
+      this.$emit("velete", index);
     },
   },
   template: `

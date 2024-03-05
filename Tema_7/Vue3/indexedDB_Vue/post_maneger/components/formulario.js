@@ -15,9 +15,10 @@ export default {
         creation_date: "",
         publication_date: null,
       },
-      posts: [],
+      posts: JSON.parse(localStorage.getItem("posts")),
       titulo_creacion: "Crear post",
       titulo_Upgreacion: "Actualizar post",
+      editando: false,
     };
   },
   computed: {
@@ -53,11 +54,13 @@ export default {
         author: this.form.author,
       };
       this.posts.push(post);
+      console.log(this.posts);
       localStorage.setItem("posts", JSON.stringify(this.posts));
       console.log(this.posts);
       let envia = this.posts;
-      console.log(envia);
+      // console.log(envia);
       this.$emit("postSend", envia);
+      // console.log(this.editando);
       this.form.title = "";
       this.form.content = "";
       this.form.author = "";
@@ -75,6 +78,7 @@ export default {
         author: this.form.author,
         publication_date: this.form.publication_date,
       };
+      console.log(this.editando);
       this.$emit("update_post", new_post);
       this.form.title = "";
       this.form.content = "";
@@ -89,8 +93,16 @@ export default {
       localStorage.setItem("posts", JSON.stringify(this.posts));
     },
   },
-  mounted(){
-    console.log(this.$route.params.id);
+  mounted() {
+    // console.log(this.$route.params.id);
+    // console.log(typeof this.$route.params.editando);
+    if (this.$route.params.editando == "true") {
+      // console.log("hola");
+      this.editando = true;
+    } else {
+      // console.log("adios");
+      this.editando = false;
+    }
   },
   template: `<!-- Titulos -->
   <h1 v-if="editando==false">{{titulo_creacion}}</h1>

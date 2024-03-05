@@ -8,7 +8,7 @@ let router = VueRouter.createRouter({
     { path: "/",  component: all_posts },
     //A partir de la ruta se mostrara una cosa u otra
     { path: "/formulario", component: formulario },
-    { path: "/formulario/:id",  component: formulario },
+    { path: "/formulario/:id:editando",  component: formulario },
   ],
 });
 export default router

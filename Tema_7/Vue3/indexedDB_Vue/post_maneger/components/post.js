@@ -1,6 +1,7 @@
 export default {
   name: "post",
   props: ["post", "index"],
+  emits:["showEdit","velete"],
   methods: {
     showEdit: function (index) {
       this.$emit("showEdit", index);
