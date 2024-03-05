@@ -1,7 +1,7 @@
 main {
   text-align: center;
 }
-#contenedor{
+#contenedor {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,10 +17,38 @@ main {
 #post_title {
   display: block;
 }
-.texto{
+.texto {
   background-color: azure;
   border: 2px solid rgb(118, 118, 118);
   border-radius: 15px;
   margin: 10px;
   padding: 10px;
+}
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+form {
+  background-color: aliceblue;
+  width: 600px;
+  padding: 5px;
+  margin-top: 0;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+}
+#titulo {
+  width: 500px;
+}
+#contenido {
+  width: 500px;
+}
+form input, textarea {
+  margin: 5px;
+  width: 450px;
+}
+#updating {
+  text-align: start;
 }

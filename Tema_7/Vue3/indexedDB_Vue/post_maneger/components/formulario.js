@@ -107,7 +107,6 @@ export default {
   template: `<!-- Titulos -->
   <h1 v-if="editando==false">{{titulo_creacion}}</h1>
   <h1 v-else>{{titulo_Upgreacion}}</h1>
-  <hr>
   <!-- El formulario -->
   <form class="formulario" ref="post_insert">
   <div v-if="editando==false">
@@ -120,13 +119,14 @@ export default {
     <input v-model="form.author" type="text" name="author" placeholder="Author"><br>
     
     <!-- The date its instantly aplied -->
-    <p>Title: {{form.title}}</p>
-    <p>Content: {{form.content}}</p>
+    <p id='titulo'>Title: {{form.title}}</p>
+    <p id='contenido'>Content: {{form.content}}</p>
     <button class="btn gris p-1" v-on:click="insert">Inserta post</button>
   </div>
   <div v-else>
     <!-- EL div en caso de actualizar el contenido de los posts -->
     <!-- Title -->
+    <div id='updating'>
     <input v-model="form.title" type="text" name="title" placeholder="Title"><br>
     <!-- Content -->
     <textarea v-model="form.content" type="text" name="content" placeholder="content"></textarea><br>
@@ -147,7 +147,7 @@ export default {
       <option value="Veleros">Veleros</option>
       <option value="Barco a motor">Barco a motor</option>
     </select>
-
+    </div>
     <p>Title: {{form.title}}</p>
     <p>Content: {{form.content}}</p>
 

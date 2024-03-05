@@ -1,9 +1,12 @@
 export default {
   name: "formulario",
   emits: ["setName"],
+  data() {
+    return { nombre: "" };
+  },
   methods: {
     setName() {
-      this.$emit("setName", nombre);
+      this.$emit("setName", this.nombre);
     },
   },
   template: `
