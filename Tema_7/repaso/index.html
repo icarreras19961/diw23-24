@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/vue-router@4.0.15/dist/vue-router.global.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Repaso vue</title>
+  </head>
+  <body>
+    <div id="app">
+      <button @click="setName">Crear user</button>
+
+      <router-view></router-view>
+    </div>
+  </body>
+  <script type="module">
+    import router from "./router.js";
+
+    const { createApp } = Vue;
+    let app = createApp({
+      data() {
+        return {
+          nombre: "",
+          nombres: [],
+        };
+      },
+      methods: {
+        setName(name) {
+          this.nombre = name;
+          this.nombres.push(this.name);
+        },
+        deleteName(index) {
+          this.nombres[this.index] = "";
+        },
+      },
+    });
+    app.use(router);
+    app.mount("#app");
+  </script>
+</html>

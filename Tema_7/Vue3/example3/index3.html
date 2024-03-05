@@ -2,11 +2,10 @@
 <html>
   <head>
     <title>VueJs router example</title>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>  
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://unpkg.com/vue-router@4.0.15/dist/vue-router.global.js"></script>
   </head>
-  <body>    
-  
+  <body>
     <div id="app">
       <h1>Routing on a Vue App</h1>
       <p>
@@ -17,8 +16,9 @@
         <router-link to="/about">Go to About</router-link>
         <router-link to="/hello?message=Good morning!">Go to hello</router-link>
         <router-link to="/goodbye/bye bye">Go to Goodbye</router-link>
-        <router-link :to="{ name: 'Goodbye2', params: { message: 'bye bye' }}">Go to Goodbye</router-link>
-
+        <router-link :to="{ name: 'Goodbye2', params: { message: 'bye bye' }}"
+          >Go to Goodbye</router-link
+        >
       </p>
       <!-- route outlet -->
       <!-- component matched by the route will render here -->
@@ -31,23 +31,21 @@
       import router from "./router.js";
 
       const app = Vue.createApp({
-        data(){
-          return{
-            valueText: ''
-          }
+        data() {
+          return {
+            valueText: "",
+          };
         },
         methods: {
-          changeValue(text){
+          changeValue(text) {
             this.valueText = text;
-          }
-        }
-        
+          },
+        },
       });
       // Make sure to _use_ the router instance to make the whole app router-aware.
       app.use(router);
 
-      app.mount('#app')
-            
+      app.mount("#app");
     </script>
     <style>
       #app {
@@ -58,9 +56,9 @@
         color: #2c3e50;
         margin-top: 60px;
       }
-      a{
+      a {
         margin-right: 0.3em;
       }
     </style>
-  </body>   
+  </body>
 </html>
