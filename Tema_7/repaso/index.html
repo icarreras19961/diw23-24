@@ -1,60 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/vue-router@4.0.15/dist/vue-router.global.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-  <meta charset="UTF-8" />
-  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-  <script src="https://unpkg.com/vue-router@4.0.15/dist/vue-router.global.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Repaso vue</title>
+  </head>
 
-  <title>Repaso vue</title>
-</head>
+  <body>
+    <!-- La app donde se montan las cosas -->
+    <div id="app">
+      <!-- Esto es lo que muestra el .push("/") -->
+      <!-- el :nombre es un prop hacia el elemento que lo necesita (lo sabra automaticamente) -->
+      <!-- el @set-name es el emit que me envian desde algun sitio (lo sabe automaticamente) y llama a un metodo de este script -->
+      <Saludo :titulo="titulo"></Saludo>
+      <router-view
+        :nombres="nombres"
+        @set-name="setName"
+        @delete-name="deleteName"
+      ></router-view>
+    </div>
+  </body>
+  <script type="module">
+    import router from "./router.js";
+    // Un componente
+    import Saludo from "./components/Saludo.js";
 
-<body>
-  <!-- La app donde se montan las cosas -->
-  <div id="app">
-    <!-- Esto es lo que muestra el .push("/") -->
-    <!-- el :nombre es un prop hacia el elemento que lo necesita (lo sabra automaticamente) -->
-    <!-- el @set-name es el emit que me envian desde algun sitio (lo sabe automaticamente) y llama a un metodo de este script -->
-    <router-view :nombres="nombres" @set-name="setName" @delete-name="deleteName"></router-view>
-  </div>
-</body>
-<script type="module">
-
-  import router from "./router.js";
-
-  const { createApp } = Vue;
-  let app = createApp({
-    // Donde declaro las variables
-    data() {
-      return {
-        nombre: "",
-        nombres: [],
-      };
-    },
-    // Donde declaro los metodos y lo que hacen
-    methods: {
-      setName(name) {
-        // el this.name hace referencia a la variable del data(){}
-        this.nombre = name;
-        this.nombres.push(this.nombre);
-        console.log(this.nombres);
+    const { createApp } = Vue;
+    let app = createApp({
+      // Donde declaro las variables
+      data() {
+        return {
+          titulo: "Ejemplo",
+          nombre: "",
+          nombres: [],
+        };
+      },
+      // Declaracion de componente
+      components: {
+        Saludo,
+      },
+      // Donde declaro los metodos y lo que hacen
+      methods: {
+        setName(name) {
+          // el this.name hace referencia a la variable del data(){}
+          this.nombre = name;
+          this.nombres.push(this.nombre);
+          console.log(this.nombres);
+          this.$router.push("/");
+        },
+        deleteName(index) {
+          console.log(this.nombres);
+          this.nombres.splice(this.index, 1);
+        },
+      },
+      // El mounted se ejecuta antes de que la pagina se monte por tanto es como lo primero que se ejecuta
+      mounted() {
         this.$router.push("/");
       },
-      deleteName(index) {
-        console.log(this.nombres);
-        this.nombres.splice(this.index, 1)
-      },
-    },
-    // El mounted se ejecuta antes de que la pagina se monte por tanto es como lo primero que se ejecuta
-    mounted() {
-      this.$router.push("/");
-    },
-  });
-  // Esto hay que ponerlo siempre que queramos hacer un router
-  app.use(router);
-  // Sin esto la pagina ni se monta 
-  app.mount("#app");
-</script>
-
+    });
+    // Esto hay que ponerlo siempre que queramos hacer un router
+    app.use(router);
+    // Sin esto la pagina ni se monta
+    app.mount("#app");
+  </script>
 </html>
