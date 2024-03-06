@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ex3</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/vue-router@4.0.15/dist/vue-router.global.js"></script>
+</head>
+
+<body>
+
+  <div id="app">
+    <!-- The router-view with the emit form Login->check-credentials and the prop loged_user to User -->
+    <router-view @check-credentials="checkcredentials" :loged_user="loged_user" :succes="succes"></router-view>
+
+  </div>
+
+  <script type="module">
+    import router from "./router.js";
+
+    const { createApp } = Vue;
+    createApp({
+      data: function () {
+        // Variables
+        return {
+          users: [],
+          loged_user: null,
+          succes: true
+        }
+      },
+      methods: {
+        checkcredentials(user) {
+          /**
+           * Here i have the checkcredentials that i remade it because i didn't like the method that you gived to us and i prefired to do my own one that consist in a for that analize user by user the array users with the params of user and when the params are the same it will set a value to the loged_user prop, set succes as true to dont show the error when we go back to the menu and the push to the component user.
+          */
+          // console.log(this.users);
+          for (let i = 0; i < this.users.length; i++) {
+            if (this.users[i].login === user.username && this.users[i].password === user.password) {
+              this.loged_user = this.users[i];
+              // console.log(this.loged_user);
+              this.succes = true;
+              this.$router.push("/user");
+              break;
+            } else {
+              this.succes = false;
+            }
+          }
+        }
+      },
+      mounted() {
+        /**
+         * here i taked the users form the localstorage and set it to the users
+        */
+        this.users = JSON.parse(localStorage.getItem('users'))
+        // console.log(this.users);
+        this.$router.push("/")
+      }
+    }).use(router).mount("#app");
+
+  </script>
+
+</body>
+
+</html>
