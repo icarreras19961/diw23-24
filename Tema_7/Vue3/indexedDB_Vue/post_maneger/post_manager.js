@@ -1,11 +1,12 @@
 import post_header from "./components/post_header.js";
 import post_footer from "./components/post_footer.js";
-import post from "./components/post.js";
-import all_posts from "./components/all_posts.js";
-import formulario from "./components/formulario.js";
 import router from "./router.js";
 const { createApp } = Vue;
 
+import store from "./components/store.js";
+const { createPinia } = pinia;
+
+const pinia = createPinia();
 let app = createApp({
   data() {
     return {
@@ -21,9 +22,6 @@ let app = createApp({
   components: {
     post_header,
     post_footer,
-    post,
-    formulario,
-    all_posts,
   },
   computed: {
     // la variable se actualiza sola en el componente en el que estoy
@@ -81,17 +79,11 @@ let app = createApp({
     },
   },
   mounted() {
-    if (JSON.parse(localStorage.getItem("posts") === null)) {
-      this.posts = [];
-      // localStorage.setItem("posts", JSON.stringify(this.posts));
-    } else if (JSON.parse(localStorage.getItem("posts").length != 0)) {
-      this.posts = JSON.parse(localStorage.getItem("posts"));
-    } else {
-      console.log("No posts");
-      this.posts = [];
-    }
+    Pinia.mapActions(store, ["postsLocalSave"]);
+    Pinia.mapState(store, ["posts"]);
     this.$router.push("/");
   },
 });
+app.use(pinia);
 app.use(router);
 app.mount("#app");

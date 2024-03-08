@@ -1,73 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-    crossorigin="anonymous"
-    />
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script src="https://unpkg.com/vue-router@4.0.15/dist/vue-router.global.js"></script>
 
-    <title>Posts</title>
-    <link rel="stylesheet" href="../style.css" />
-    <link rel="stylesheet" href="../perfil/style.css" />
-    <link rel="stylesheet" href="post_manager.css" />
-    <!-- <script src="../perfil/script.js"></script> -->
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/vue-router@4.0.15/dist/vue-router.global.js"></script>
+  <script src="https://unpkg.com/pinia"></script>
 
-  <body>
-    <div id="app" class="min-vh-100">
-      <!-- Cabezera -->
-      <!-- Funciona si le das a ctr+f5 seguidamente de f5 -->
+  <title>Posts</title>
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../perfil/style.css" />
+  <link rel="stylesheet" href="post_manager.css" />
+  <!-- <script src="../perfil/script.js"></script> -->
+</head>
 
-      <post_header></post_header>
+<body>
+  <div id="app" class="min-vh-100">
+    <!-- Cabezera -->
+    <post_header></post_header>
 
-      <main class="container m-2 mx-auto p-3 border-1" id="cuerpo">
-        <!-- Sin esto directamente no muestra nada -->
-        <!-- <router-link to="/">Posts</router-link>
-        <router-link to="/formulario">Nuevo Post</router-link> -->
+    <main class="container m-2 mx-auto p-3 border-1" id="cuerpo">
+      <router-view v-bind:posts="posts" @post-send="postSend" @update_post="edit" @show-edit="showEdit" @velete="velete"
+        v-bind:editando="editando"></router-view>
+    </main>
+    <!-- Pie de pagina -->
+    <post_footer></post_footer>
+  </div>
 
-        <!--  TODO Faltara coger los emits de formulario con el @ y llamar al metofo que haga falta -->
-        <router-view
-          v-bind:posts="posts"
-          @post-send="postSend"
-          @update_post="edit"
-          @show-edit="showEdit"
-          @velete="velete"
-          v-bind:editando="editando"
-        ></router-view>
-        <!-- A partir de aqui funciona -->
-        <!-- <formulario @post-send="postSend" :editando="editando" :post="editing_post" @update_post="edit"></formulario>
+  <script type="module" src="post_manager.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+</body>
 
-        <hr />
-        <h1>{{lista}}</h1>
-        <br /> -->
-        <!-- La lista de posts -->
-        <!-- <ul v-if="posts.length" id="contenedor">
-          <post
-            v-for="(post,index) in posts"
-            v-bind:key="index"
-            :post="post"
-            :index="index"
-            @show-edit="showEdit(index)"
-            @velete="velete(index)"
-          >
-          </post>
-        </ul> -->
-      </main>
-      <!-- Pie de pagina -->
-      <post_footer></post_footer>
-    </div>
-
-    <script type="module" src="post_manager.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-      crossorigin="anonymous"
-    ></script>
-  </body>
 </html>
